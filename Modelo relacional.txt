@@ -1,0 +1,72 @@
+Modelo relacional:
+
+Cliente (
+id: entero (Llave primaria),
+nombre: texto,
+apellidoPaterno: texto,
+apellidoMaterno: texto,
+fechaNacimiento: fecha,
+correoElectronico: texto,
+ciudad: texto,
+coordenada y: flotante,
+coordenada x: flotante
+)
+
+ClienteCompraFuncion (
+id: entero (Llave primaria),
+idCliente: entero,
+idFuncion: entero
+)
+idCliente que pertenece a Cliente.
+idFuncion que pertenece a Funcion.
+
+Funcion (
+id: entero (Llave primaria),
+tiempoLimpieza: fechaHora,
+tiempoInicio: fechaHora,
+tiempoFin: fechaHora,
+numeroAsientosDisponibles: entero (Calculado),
+dia: fecha,
+idSala: entero,
+idPelicula: entero
+)
+idSala que pertenece a Sala
+idPelicula que pertenece a Pelicula
+numeroAsientosDisponibles se calcula con la cantidad de asientos totales menos los comprados
+
+Sala (
+id: entero (Llave primaria),
+nombre: texto,
+numeroAsientos: entero,
+tipoSala: texto,
+costo: flotante,
+idSucursal: entero
+)
+idSucursal que pertenece a Sucursal
+
+Pelicula (
+id: entero (Llave primaria),
+clasificacion: texto,
+genero: texto,
+titulo: texto,
+sinopsis: texto,
+paisOrigen: texto,
+enlaceTrailer: texto
+duración: hora
+)
+
+Sucursal (
+id: entero (Llave primaria),
+nombre: texto,
+ciudad: texto,
+coordenada x: flotante,
+coordenada y: flotante
+)
+
+SucursalPeliculas
+id: entero (Llave primaria),
+idPelicula: entero,
+idSucursal: entero
+)
+idPelicula que pertenece a Pelicula
+idSucursal que pertenece a Sucursal

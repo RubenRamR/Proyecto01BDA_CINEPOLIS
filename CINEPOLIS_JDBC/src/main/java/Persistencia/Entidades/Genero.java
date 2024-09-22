@@ -10,17 +10,23 @@ package Persistencia.Entidades;
  */
 public class Genero {
     
-    
+    //declaración de variables
     private long id;
     private String nombre;
     
-    public Genero(){}
+    //Constructor por omisión
+    public Genero(){
+    
+    }
 
+    
+    //Constructor que inicializa las variables
     public Genero(long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
+    //gets y sets
     public long getId() {
         return id;
     }

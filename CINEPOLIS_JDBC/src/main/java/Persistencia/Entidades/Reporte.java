@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Reporte {
  
+    //Declaración de variables
     private Long id;
     private String descripcion;
     private String sucursal;
@@ -28,9 +29,11 @@ public class Reporte {
     private int peliculaId;
     private int generoId;
     
+    //Constructor por omisión
     public Reporte() {
     }
 
+    //Constructor que inicializa las variables
     public Reporte(Long id, String descripcion, String sucursal, String cantFunciones, Date Fecha, String totalGFecha, String totalGanancias, String tipo) {
         this.id = id;
         this.descripcion = descripcion;
@@ -42,6 +45,7 @@ public class Reporte {
         this.totalGanancias = totalGanancias;
     }
 
+    //Constructor que incializa variables
     public Reporte(String descripcion, String sucursal, String cantFunciones, Date Fecha, String totalGFecha, String totalGanancias, String tipo) {
         this.descripcion = descripcion;
         this.sucursal = sucursal;
@@ -52,7 +56,7 @@ public class Reporte {
         this.totalGanancias = totalGanancias;
     }
     
-
+    //gets y sets
     public Long getId() {
         return id;
     }

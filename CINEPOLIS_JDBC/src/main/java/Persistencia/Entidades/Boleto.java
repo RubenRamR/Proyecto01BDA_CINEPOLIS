@@ -14,6 +14,7 @@ import java.util.Date;
  */
 public class Boleto {
  
+    //Declaración de variables
     private Long id;
     private double costo;
     private boolean estado;
@@ -21,9 +22,11 @@ public class Boleto {
     private Funcion funcion;
     private Cliente cliente;
 
+    //Constructor por omision
     public Boleto() {
     }
 
+    //Constructor que inicializa las variables
     public Boleto(Long id, double costo, boolean estado, Date fechaCompra, Funcion funcion, Cliente cliente) {
         this.id = id;
         this.costo = costo;
@@ -33,7 +36,7 @@ public class Boleto {
         this.cliente = cliente;
     }
 
-    
+    //Constructor que inicializa
     public Boleto(double costo, boolean estado, Date fechaCompra,  Funcion funcion, Cliente cliente) {
         this.costo = costo;
         this.estado = estado;
@@ -42,6 +45,7 @@ public class Boleto {
         this.cliente = cliente;
     }
     
+    //Gets y sets
     public Funcion getFuncion() {
         return funcion;
     }
@@ -90,6 +94,7 @@ public class Boleto {
         this.fechaCompra = fechaCompra;
     }
 
+    //Método que convierte a entidad
     public Boleto convertirAEntidad(ResultSet resultado) throws SQLException {
 
         Long id = resultado.getLong("idBoleto");

@@ -14,7 +14,8 @@ import java.util.Date;
  */
 public class Cliente {
     
-     private long id;
+    //Declaración de variables
+    private long id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -23,10 +24,12 @@ public class Cliente {
     private String ubicacion;
     private Date fechaNacimiento;
     
+    //Constructor por omisión
     public Cliente(){
         
     }
 
+    //Constructor que inicializa las variables
     public Cliente(long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento) {
         this.id = id;
         this.nombre = nombre;
@@ -38,6 +41,7 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    //Constructor de variables
     public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -48,6 +52,7 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    //gets y sets
     public long getId() {
         return id;
     }
@@ -112,7 +117,7 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
     
-    
+    //Método que convierte a entidad
     public static Cliente convertirAEntidad(ResultSet resultado) throws SQLException {
         int idCliente = resultado.getInt("idCliente");
         String nombre = resultado.getString("nombre");

@@ -14,14 +14,17 @@ import java.sql.SQLException;
  */
 public class Sala {
     
+    //Declaración de variables
     private Long id;
     private int numero;
     private Funcion funcion ;
     private double costo;
 
+    //Constructor por omisión
     public Sala() {
     }
 
+    //Constructor que inicializa las variables
     public Sala(Long id, int numero, Funcion funcion, double costo) {
         this.id = id;
         this.numero = numero;
@@ -29,11 +32,13 @@ public class Sala {
         this.costo = costo;
     }
 
+    //Constructor que inicializa numero y funcion
     public Sala(int numero, Funcion funcion) {
         this.numero = numero;
         this.funcion = funcion;
     }
 
+    //gets y sets
     public double getCosto() {
         return costo;
     }
@@ -66,6 +71,7 @@ public class Sala {
         this.funcion = funcion;
     }
     
+    //Método a converit a entidad
     public Sala convertirAEntidad(ResultSet resultado) throws SQLException, cinepolisException {
 
         Long id = resultado.getLong("idSalas");

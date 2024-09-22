@@ -13,7 +13,8 @@ import java.sql.SQLException;
  */
 public class Pelicula {
     
-     private int idPelicula;
+    //declaracion de variables
+    private int idPelicula;
     private String titulo;
     private String sinopsis;
     private String trailer;
@@ -22,14 +23,16 @@ public class Pelicula {
     private int idGenero;
     private int idClasificacion;
     
-
+    //Constructor por omisión
     public Pelicula() {
     }
     
+    //Constructor que inicializa el id
     public Pelicula(int id) {
         this.idPelicula=id;
     }
 
+    //Constructor que incializa variables
     public Pelicula(int id, String titulo, String sinopsis, String trailer, double duracion, String pais, int idGenero, int idClasificacion) {
         this.idPelicula = id;
         this.titulo = titulo;
@@ -41,6 +44,7 @@ public class Pelicula {
         this.idClasificacion = idClasificacion;
     }
 
+    //Constructor que incializa variables
     public Pelicula(String titulo, String sinopsis, String trailer, double duracion, String pais, int idGenero, int idClasificacion) {
         this.titulo = titulo;
         this.sinopsis = sinopsis;
@@ -51,6 +55,7 @@ public class Pelicula {
         this.idClasificacion = idClasificacion;
     }
 
+    //gets y sets
     public int getId(){
         return idPelicula;
     }
@@ -117,6 +122,7 @@ public class Pelicula {
         this.idGenero=idGenero;
     }
     
+    //Método para convertir a entidad
     public Pelicula convertirAEntidad(ResultSet resultado) throws SQLException {
 
         int id = resultado.getInt("idPelicula");

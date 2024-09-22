@@ -10,17 +10,20 @@ package Persistencia.Entidades;
  */
 public class Clasificacion {
     
-    
+    //Declaración de variables
     private long id;
     private String nombre;
 
+    //Constructor por omisión
     public Clasificacion(){}
     
+    //Constructor que inicializa id y nombre
     public Clasificacion(long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
+    //gets y sets
     public long getId() {
         return id;
     }

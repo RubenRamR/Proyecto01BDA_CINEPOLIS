@@ -16,32 +16,24 @@ import java.util.List;
  * @author stae
  */
 public class Sucursal {
-    
-    
-    
+
+    //Declaración de variables
     private Long id;
     private String nombre;
     private String ubicacion;
     List<Sala> salas;
     private Point2D.Double coordenadas;
 
-        
+    //Constructor por omisión    
     public Sucursal() {
     }
-    
-    
-    
-    public Sucursal(Point2D.Double coordenadas) {
-            this.coordenadas = coordenadas;
-        }
 
-        public Point2D.Double getCoordenadas() {
-            return coordenadas;
-        }
-    public String getNombre() {
-        return nombre;
+    //Construtor que inicializa las coordenadas
+    public Sucursal(Point2D.Double coordenadas) {
+        this.coordenadas = coordenadas;
     }
 
+    //Constructor que inicializa variables
     public Sucursal(Long id, String nombre, String ubicacion, List<Sala> salas) {
         this.id = id;
         this.nombre = nombre;
@@ -49,12 +41,22 @@ public class Sucursal {
         this.salas = salas;
     }
 
+    //Constructor que inicializa nombre, ubicacion, salas
     public Sucursal(String nombre, String ubicacion, List<Sala> salas) {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.salas = salas;
     }
 
+    //gets y sets
+    public Point2D.Double getCoordenadas() {
+        return coordenadas;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -83,8 +85,7 @@ public class Sucursal {
         this.salas = salas;
     }
 
-  
-
+    //Método para convertir a entidad
     public Sucursal convertirAEntidad(ResultSet resultado) throws SQLException, cinepolisException {
         Long id = resultado.getLong("idSucursales");
         String nombre = resultado.getString("nombre");
@@ -98,7 +99,7 @@ public class Sucursal {
             Funcion funcion = new Funcion().convertirAEntidad(resultado);
             double costo = resultado.getDouble("costo");
 
-            salas.add(new Sala(salaId,numero, funcion, costo));
+            salas.add(new Sala(salaId, numero, funcion, costo));
         }
 
         return new Sucursal(id, nombre, ubicacion, salas);

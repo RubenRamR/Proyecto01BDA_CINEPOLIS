@@ -14,6 +14,7 @@ import java.util.Date;
  */
 public class Funcion {
     
+    //Declaración de variables
     private int diaSemana;
     private int duracion;
     private int id;
@@ -21,9 +22,11 @@ public class Funcion {
     private double horaInicio;
     private Pelicula pelicula;
 
+    //Constructor por omisión
     public Funcion() {
     }
 
+    //Constructor que inicializa las variables
     public Funcion(int id, Date fecha, double horaInicio, Pelicula pelicula, int diaSemana, int duracion) {
         this.id = id;
         this.fecha = fecha;
@@ -33,6 +36,7 @@ public class Funcion {
         this.duracion = duracion;
     }
 
+    //Constructor que inicializa las variables
     public Funcion(Date fecha, double horaInicio, Pelicula pelicula, int diaSemana, int duracion) {
         this.fecha = fecha;
         this.horaInicio = horaInicio;
@@ -41,6 +45,7 @@ public class Funcion {
         this.duracion = duracion;
     }
 
+    //gets y sets
     public int getId() {
         return id;
     }
@@ -90,7 +95,7 @@ public class Funcion {
     }
 
     
-    
+    //Método que convierte a entidad
     public Funcion convertirAEntidad(ResultSet resultado) throws SQLException {
 
         int id = resultado.getInt("idPelicula");

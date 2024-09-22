@@ -10,25 +10,29 @@ package Persistencia.Entidades;
  */
 public class Ciudad {
  
-    
-     private Long id;
+    //declaración de variables
+    private Long id;
     private String nombre;
     private String localizacion;
 
+    //Constructor por omisión
     public Ciudad() {
     }
 
+    //Constructor que incializa las variables nombre y localizacion
     public Ciudad(String nombre, String localizacion) {
         this.nombre = nombre;
         this.localizacion = localizacion;
     }
 
+    //Constructor que inicializa variables
     public Ciudad(Long id, String nombre, String localizacion) {
         this.id = id;
         this.nombre = nombre;
         this.localizacion = localizacion;
     }
 
+    //Gets y sets
     public Long getId() {
         return id;
     }

@@ -11,6 +11,7 @@ package Presentacion;
 public class RUN {
 
     public static void main(String[] args) {
-
+        InicioSesion i = new InicioSesion();
+        i.setVisible(true);
     }
 }

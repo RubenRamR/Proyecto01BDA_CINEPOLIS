@@ -149,9 +149,7 @@ public class DlgCompraExitosa extends javax.swing.JFrame {
 
     private void BtnGenerarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGenerarPDFActionPerformed
         // TODO add your handling code here:
-        DLGPDFExito pe = new DLGPDFExito();
-        pe.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_BtnGenerarPDFActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

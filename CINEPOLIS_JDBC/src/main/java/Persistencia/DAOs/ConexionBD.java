@@ -18,7 +18,7 @@ public class ConexionBD implements IConexionBD{
     private final String BASE_DATOS = "CinepolisDB";
     private final String CADENA_CONEXION = "jdbc:mysql://" + SERVER + "/" + BASE_DATOS;
     private final String USUARIO = "root";
-    private final String CONTRASEÑA = "naranja3";
+    private final String CONTRASEÑA = "root";
     private Connection conexion;
     
     

@@ -16,7 +16,7 @@ import java.util.List;
  * @author stae
  */
 public class ReporteDTO {
-    
+
     private Long id;
     private String descripcion;
     private String sucursal;
@@ -25,10 +25,27 @@ public class ReporteDTO {
     private String totalGFecha;
     private String totalGanancias;
     private String tipo;
-    private List<Genero>  generos = new ArrayList<>();
-    private List<Pelicula>  peliculas = new ArrayList<>();
-    private List<Ciudad>  ciudades = new ArrayList<>();
+    private List<Genero> generos = new ArrayList<>();
+    private List<Pelicula> peliculas = new ArrayList<>();
+    private List<Ciudad> ciudades = new ArrayList<>();
+    private int peliculaId;
+    private int generoId;
 
+    public int getPeliculaId() {
+        return peliculaId;
+    }
+
+    public void setPeliculaId(int peliculaId) {
+        this.peliculaId = peliculaId;
+    }
+
+    public int getGeneroId() {
+        return generoId;
+    }
+
+    public void setGeneroId(int generoId) {
+        this.generoId = generoId;
+    }
 
     public ReporteDTO() {
     }
@@ -43,8 +60,6 @@ public class ReporteDTO {
         this.totalGanancias = totalGanancias;
         this.tipo = tipo;
     }
-    
-    
 
     public ReporteDTO(String descripcion, String sucursal, String cantFunciones, Date Fecha, String totalGFecha, String totalGanancias, String tipo) {
         this.descripcion = descripcion;
@@ -55,6 +70,20 @@ public class ReporteDTO {
         this.totalGanancias = totalGanancias;
         this.tipo = tipo;
     }
+
+    public ReporteDTO(String descripcion, String sucursal, String cantFunciones, Date Fecha, String totalGFecha, String totalGanancias, String tipo, int peliculaId, int generoId) {
+        this.descripcion = descripcion;
+        this.sucursal = sucursal;
+        this.cantFunciones = cantFunciones;
+        this.Fecha = Fecha;
+        this.totalGFecha = totalGFecha;
+        this.totalGanancias = totalGanancias;
+        this.tipo = tipo;
+        this.peliculaId = peliculaId;
+        this.generoId = generoId;
+    }
+    
+    
 
     public Long getId() {
         return id;
@@ -143,8 +172,5 @@ public class ReporteDTO {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
-    
-    
-    
+
 }

@@ -79,14 +79,17 @@ public class SucursalesCartelera extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         LblSucursales.setBackground(new java.awt.Color(0, 0, 0));
         LblSucursales.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         LblSucursales.setText("Sucursales");
+        jPanel2.add(LblSucursales, new org.netbeans.lib.awtextra.AbsoluteConstraints(645, 20, -1, -1));
 
         LblCiudad.setBackground(new java.awt.Color(0, 0, 0));
         LblCiudad.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         LblCiudad.setText("Ciudad");
+        jPanel2.add(LblCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(122, 114, -1, -1));
 
         BtnBuscarSucursal.setBackground(new java.awt.Color(0, 204, 255));
         BtnBuscarSucursal.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -97,23 +100,35 @@ public class SucursalesCartelera extends javax.swing.JFrame {
                 BtnBuscarSucursalActionPerformed(evt);
             }
         });
+        jPanel2.add(BtnBuscarSucursal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1034, 168, -1, 54));
 
         CmbxCiudad.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        CmbxCiudad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CmbxCiudadActionPerformed(evt);
+            }
+        });
+        jPanel2.add(CmbxCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 300, -1));
 
         CmbxSucursal.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jPanel2.add(CmbxSucursal, new org.netbeans.lib.awtextra.AbsoluteConstraints(524, 164, 300, -1));
 
         LblCiudad1.setBackground(new java.awt.Color(0, 0, 0));
         LblCiudad1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         LblCiudad1.setText("Seleccionar");
+        jPanel2.add(LblCiudad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(716, 316, -1, 24));
 
         LblPagina.setBackground(new java.awt.Color(0, 0, 0));
         LblPagina.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         LblPagina.setText("1");
+        jPanel2.add(LblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(781, 921, -1, 52));
 
         LblCiudad2.setBackground(new java.awt.Color(0, 0, 0));
         LblCiudad2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         LblCiudad2.setText("Sucursal");
+        jPanel2.add(LblCiudad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(524, 114, -1, -1));
 
+        TblCartelera.setBackground(new java.awt.Color(255, 255, 255));
         TblCartelera.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         TblCartelera.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -125,108 +140,30 @@ public class SucursalesCartelera extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TblCartelera);
 
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(122, 346, 1241, 569));
+
         LblCartelera.setBackground(new java.awt.Color(0, 0, 0));
         LblCartelera.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         LblCartelera.setText("Cartelera");
+        jPanel2.add(LblCartelera, new org.netbeans.lib.awtextra.AbsoluteConstraints(663, 258, -1, 52));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 633, -1, -1));
 
+        BtnAtrasTabla.setBackground(new java.awt.Color(255, 255, 255));
+        BtnAtrasTabla.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\BtnAtrasT.png")); // NOI18N
+        jPanel2.add(BtnAtrasTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 621, -1, 60));
+
+        BtnAdelanteTabla.setBackground(new java.awt.Color(255, 255, 255));
+        BtnAdelanteTabla.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\BtnAdelanteT.png")); // NOI18N
         BtnAdelanteTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAdelanteTablaActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(jLabel2)
-                        .addGap(64, 64, 64))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(BtnAtrasTabla)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CmbxCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LblCiudad))
-                        .addGap(102, 102, 102)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(LblCiudad2)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(CmbxSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
-                                .addComponent(BtnBuscarSucursal)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnAdelanteTabla)
-                .addGap(50, 50, 50))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(LblCiudad1)
-                        .addGap(687, 687, 687))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(LblCartelera)
-                        .addGap(623, 623, 623))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(LblPagina)
-                        .addGap(682, 682, 682))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(LblSucursales)
-                        .addGap(611, 611, 611))))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(LblSucursales)
-                .addGap(30, 30, 30)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LblCiudad)
-                    .addComponent(LblCiudad2))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(CmbxCiudad)
-                            .addComponent(CmbxSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40)
-                        .addComponent(LblCartelera, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LblCiudad1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnBuscarSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(BtnAtrasTabla)
-                        .addGap(263, 263, 263))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(253, 253, 253)
-                                .addComponent(BtnAdelanteTabla)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(LblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(316, 316, 316))
-        );
+        jPanel2.add(BtnAdelanteTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(1369, 599, -1, -1));
 
         Panel.setBackground(new java.awt.Color(0, 0, 153));
+        Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        Panel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 587, -1, -1));
 
         BtnAtras.setBackground(new java.awt.Color(0, 0, 153));
         BtnAtras.setForeground(new java.awt.Color(0, 0, 153));
@@ -235,30 +172,7 @@ public class SucursalesCartelera extends javax.swing.JFrame {
                 BtnAtrasActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
-        Panel.setLayout(PanelLayout);
-        PanelLayout.setHorizontalGroup(
-            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelLayout.createSequentialGroup()
-                .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelLayout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addComponent(BtnAtras))
-                    .addGroup(PanelLayout.createSequentialGroup()
-                        .addGap(126, 126, 126)
-                        .addComponent(jLabel1)))
-                .addContainerGap(134, Short.MAX_VALUE))
-        );
-        PanelLayout.setVerticalGroup(
-            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(262, 262, 262)
-                .addComponent(BtnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(341, 341, 341))
-        );
+        Panel.add(BtnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(158, 849, -1, 99));
 
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -318,6 +232,10 @@ public class SucursalesCartelera extends javax.swing.JFrame {
 //        i.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_MenuCerrarSesionActionPerformed
+
+    private void CmbxCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbxCiudadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbxCiudadActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAdelanteTabla;

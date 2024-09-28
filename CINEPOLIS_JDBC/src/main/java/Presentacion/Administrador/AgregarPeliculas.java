@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 public class AgregarPeliculas extends javax.swing.JFrame {
 
     ClienteNegocio clienteNegocio;
-    
+
     /**
      * Creates new form AgregarPeliculas
      */
@@ -37,22 +37,23 @@ public class AgregarPeliculas extends javax.swing.JFrame {
     private void cargarGeneros() {
         List<GeneroDTO> generos = clienteNegocio.obtenerTodosLosGeneros();
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        for (GeneroDTO genero : generos) {
+        for (GeneroDTO genero : generos)
+        {
             model.addElement(genero.getTipo());
         }
         jComboBoxGenero.setModel(model);
     }
-    
+
     private void cargarClasificaciones() {
         List<ClasificacionDTO> clasificaciones = clienteNegocio.obtenerTodasLasClasificaciones();
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        for (ClasificacionDTO clasificacion : clasificaciones) {
+        for (ClasificacionDTO clasificacion : clasificaciones)
+        {
             model.addElement(clasificacion.getTipo());
         }
         jComboBoxClasificacion.setModel(model);
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -241,7 +242,7 @@ public class AgregarPeliculas extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        CatalogoPeliculas  catalogoPeliculas = new  CatalogoPeliculas(clienteNegocio);
+        CatalogoPeliculas catalogoPeliculas = new CatalogoPeliculas(clienteNegocio);
         catalogoPeliculas.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -285,17 +286,20 @@ public class AgregarPeliculas extends javax.swing.JFrame {
         String linkTrailer = textoLink.getText();
 
         // Validar que no haya campos vacíos
-        if (titulo.isEmpty() || genero.isEmpty() || sinopsis.isEmpty() || clasificacion.isEmpty() ||
-            duracionStr.isEmpty() || pais.isEmpty() || linkTrailer.isEmpty()) {
+        if (titulo.isEmpty() || genero.isEmpty() || sinopsis.isEmpty() || clasificacion.isEmpty()
+                || duracionStr.isEmpty() || pais.isEmpty() || linkTrailer.isEmpty())
+        {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Convertir duración a número
         int duracion;
-        try {
+        try
+        {
             duracion = Integer.parseInt(duracionStr);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e)
+        {
             JOptionPane.showMessageDialog(this, "La duración debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -311,7 +315,8 @@ public class AgregarPeliculas extends javax.swing.JFrame {
         peliculaDTO.setTrailer(textoLink.getText());
 
         // Llamar a la capa de negocio para agregar la película
-        try {
+        try
+        {
             clienteNegocio.agregarPelicula(peliculaDTO);
             JOptionPane.showMessageDialog(this, "Película agregada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
@@ -323,7 +328,8 @@ public class AgregarPeliculas extends javax.swing.JFrame {
             textoLink.setText("");
             jComboBoxGenero.setSelectedIndex(0);
             jComboBoxClasificacion.setSelectedIndex(0);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             JOptionPane.showMessageDialog(this, "Error al agregar película: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarPeliculaActionPerformed
@@ -337,29 +343,36 @@ public class AgregarPeliculas extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         ConexionBD conexion = new ConexionBD();
-        ClienteDAO clienteDAO= new ClienteDAO (conexion);
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
         ClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AgregarPeliculas(clienteNegocio).setVisible(true);

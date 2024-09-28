@@ -12,6 +12,7 @@ import Persistencia.DAOs.ConexionBD;
 import excepciones.cinepolisException;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,13 +22,11 @@ import javax.swing.table.DefaultTableModel;
 public class ReportePorPeliculas extends javax.swing.JFrame {
 
     ClienteNegocio cine;
-    
-    public ReportePorPeliculas(){
-        
+
+    public ReportePorPeliculas() {
+
     }
-    
-    
-    
+
     /**
      * Creates new form ReportePorPeliculas
      */
@@ -35,18 +34,18 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setSize(930, 580);
-        this.cine=cine;
-        this.llenarComboBoxGenero();  
+        this.cine = cine;
+        this.llenarComboBoxGenero();
     }
-    
+
     private void llenarComboBoxGenero() {
         boxGenero.addItem("");
         List<GeneroDTO> generos = cine.obtenerTodosLosGeneros();
-        for (GeneroDTO genero : generos) {
+        for (GeneroDTO genero : generos)
+        {
             boxGenero.addItem(genero.getTipo());
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,8 +61,7 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
         btnReporteCiudad = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblReportes = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        BtnGenerarReportePelicula = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnRegresar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
@@ -98,10 +96,7 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
 
         tblReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Ciudad", "Pelicula", "Genero", "Fecha", "Total ganancias por fecha", "Total de Ganancias"
@@ -111,27 +106,16 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 870, 230));
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 204));
-        jButton1.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Generar Reporte Por Genero");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BtnGenerarReportePelicula.setBackground(new java.awt.Color(0, 102, 204));
+        BtnGenerarReportePelicula.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
+        BtnGenerarReportePelicula.setForeground(new java.awt.Color(255, 255, 255));
+        BtnGenerarReportePelicula.setText("Generar Reporte por Pelicula");
+        BtnGenerarReportePelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BtnGenerarReportePeliculaActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 480, 210, 30));
-
-        jButton2.setBackground(new java.awt.Color(0, 102, 204));
-        jButton2.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Generar Reporte por Pelicula");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 480, -1, 30));
+        jPanel1.add(BtnGenerarReportePelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 480, -1, 30));
 
         jPanel2.setBackground(new java.awt.Color(12, 33, 63));
 
@@ -234,7 +218,9 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 981, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,11 +237,14 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
 
         // Llamamos al método en CinepolisBO para generar el reporte por ciudad
         int idG = 0;
-        try {
+        try
+        {
             idG = cine.obtenerIdGenero(boxGenero.getSelectedItem().toString());
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
         }
         List<ReporteDTO> reportes = (List<ReporteDTO>) cine.generarReporte(ciudad, 0, idG, "fechaInicio", "fechaFin");
@@ -264,13 +253,9 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
         llenarTabla(reportes);
     }//GEN-LAST:event_btnReporteCiudadActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BtnGenerarReportePeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGenerarReportePeliculaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_BtnGenerarReportePeliculaActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
@@ -281,18 +266,36 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
     }//GEN-LAST:event_boxCiudadActionPerformed
 
     private void llenarTabla(List<ReporteDTO> reportes) {
-    DefaultTableModel model = (DefaultTableModel) tblReportes.getModel();
-    model.setRowCount(0); 
-    
-    for (ReporteDTO reporte : reportes) {
-        model.addRow(new Object[]{reporte.getCiudades(), reporte.getPeliculas(), reporte.getGeneros(), reporte.getFecha(), reporte.getTotalGFecha(), reporte.getTotalGanancias()});
+        DefaultTableModel model = (DefaultTableModel) tblReportes.getModel();
+        model.setRowCount(0);
+
+        for (ReporteDTO reporte : reportes)
+        {
+            model.addRow(new Object[]
+            {
+                reporte.getCiudades(), reporte.getPeliculas(), reporte.getGeneros(), reporte.getFecha(), reporte.getTotalGFecha(), reporte.getTotalGanancias()
+            });
+        }
     }
-    }
-    
+
     private String obtenerCiudadSeleccionada() {
-    return boxCiudad.getSelectedItem().toString();
+        return boxCiudad.getSelectedItem().toString();
     }
-    
+
+    private int obtenerPeliculaSeleccionada() {
+        int filaSeleccionada = tblReportes.getSelectedRow();
+
+        if (filaSeleccionada != -1)
+        {
+            int idPelicula = (int) tblReportes.getValueAt(filaSeleccionada, 0);
+            return idPelicula;
+        } else
+        {
+            JOptionPane.showMessageDialog(this, "Seleccione una película de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return -1;  // Valor de retorno inválido en caso de no seleccionar
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -302,45 +305,50 @@ public class ReportePorPeliculas extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(ReportePorPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(ReportePorPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(ReportePorPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(ReportePorPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         ConexionBD conexion = new ConexionBD();
-        ClienteDAO clienteDAO= new ClienteDAO (conexion);
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
         ClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
-        
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ReportePorPeliculas(clienteNegocio).setVisible(true);
-               
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnGenerarReportePelicula;
     private javax.swing.JComboBox<String> boxCiudad;
     private javax.swing.JComboBox<String> boxGenero;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnReporteCiudad;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

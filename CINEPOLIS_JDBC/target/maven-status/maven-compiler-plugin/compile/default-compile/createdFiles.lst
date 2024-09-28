@@ -3,6 +3,7 @@ Presentacion\Administrador\CatalogoClientes$10.class
 Presentacion\Administrador\CatalogoClientes$4.class
 Presentacion\Administrador\NuevaFuncion.class
 Persistencia\DAOs\IClasificacionDAO.class
+Presentacion\Administrador\CatalogoPeliculas$14.class
 Presentacion\Administrador\CatalogoPeliculas$4.class
 Presentacion\DlgCompraExitosa.class
 Presentacion\Cartelera$9.class
@@ -21,6 +22,7 @@ Presentacion\Administrador\AdministrarCatalogos$1.class
 Presentacion\PeliculaResumen$4.class
 Presentacion\CompraBoletos$1.class
 Presentacion\Administrador\AdministrarFunciones$7.class
+Presentacion\Administrador\ReportePorSucursal$4.class
 Presentacion\Administrador\AgregarPeliculas$2.class
 Presentacion\Administrador\ReportePorPeliculas$1.class
 Presentacion\Administrador\AdministrarCatalogos$2.class
@@ -43,7 +45,6 @@ Persistencia\DAOs\GeneroDAO.class
 Persistencia\DAOs\IFuncionDAO.class
 Persistencia\Entidades\Cliente.class
 Presentacion\DetalleCompra$1.class
-Presentacion\Administrador\ReportePorPeliculas$6.class
 Presentacion\Cartelera$3.class
 Presentacion\Administrador\EditarCliente$2.class
 Presentacion\Administrador\AgregarCliente$1.class
@@ -62,6 +63,7 @@ Presentacion\Administrador\AgregarPeliculas.class
 Presentacion\Administrador\EditarFuncion$1.class
 Presentacion\DetalleCompra$2.class
 Persistencia\Entidades\Boleto.class
+Presentacion\Administrador\ReportePorSucursal$5.class
 Presentacion\CompraBoletos$5.class
 Presentacion\Administrador\AgregarPeliculas$4.class
 Presentacion\Cartelera$2.class
@@ -90,6 +92,7 @@ Persistencia\DAOs\ReporteDAO$1.class
 Presentacion\Administrador\CatalogoClientes$6.class
 Persistencia\Entidades\Clasificacion.class
 Persistencia\DAOs\FuncionDAO.class
+Presentacion\Administrador\ReportePorSucursal$3.class
 Presentacion\Administrador\AgregarCliente$3.class
 Presentacion\Administrador\EditarCliente$4.class
 Presentacion\Cartelera$1.class
@@ -106,6 +109,7 @@ Presentacion\Administrador\ReportePorPeliculas$2.class
 Presentacion\Administrador\CatalogoClientes$5.class
 Presentacion\Administrador\EditarCliente$5.class
 Negocio\DTOs\ReporteDTO.class
+Presentacion\Administrador\ReportePorSucursal$2.class
 Presentacion\Administrador\EditarPelicula$1.class
 Presentacion\CompraBoletos$6.class
 Presentacion\Administrador\AgregarCliente$4.class
@@ -159,6 +163,7 @@ Presentacion\Administrador\EditarPelicula$3.class
 Presentacion\CompraBoletos$3.class
 Persistencia\DAOs\IConexionBD.class
 Presentacion\Sala$1.class
+Presentacion\Administrador\ReportePorSucursal$6.class
 Presentacion\Administrador\NuevaFuncion$5.class
 Presentacion\Administrador\AdministrarFunciones$5.class
 PruebasMetodos\Pruebas.class
@@ -171,12 +176,14 @@ Persistencia\DAOs\IBoletoDAO.class
 Presentacion\CompraBoletos$2.class
 Presentacion\Administrador\AdministrarFunciones$6.class
 Negocio\DTOs\SalaDTO.class
+Presentacion\SucursalesCartelera$5.class
 Negocio\Negocio\IReporteNegocio.class
 Persistencia\Entidades\Sucursal.class
 Presentacion\Administrador\AgregarPeliculas$1.class
 Presentacion\Administrador\AdministrarCatalogos$3.class
 Presentacion\Administrador\NuevaFuncion$6.class
 Presentacion\Cartelera$5.class
+Presentacion\Administrador\CatalogoClientes$11.class
 Persistencia\DAOs\ISucursalesDAO.class
 Presentacion\Administrador\CatalogoPeliculas$13.class
 Presentacion\Cartelera$8.class

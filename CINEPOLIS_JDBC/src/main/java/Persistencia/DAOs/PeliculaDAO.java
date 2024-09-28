@@ -479,7 +479,7 @@ public class PeliculaDAO implements IPeliculaDAO{
         try {
             List<PeliculaDTO> peliculasLista = new ArrayList<>();
             Connection conexion = this.conexionBD.crearConexion();
-            String codigoSQL = "SELECT idPelicula, titulo, sinopsis, trailer, duracion, pais, idGenero,idClasificacion FROM peliculas";
+            String codigoSQL = "SELECT idPelicula, titulo, sinopsis, trailer, duracion, pais, idGenero, idClasificacion FROM peliculas";
             Statement comandoSQL = conexion.createStatement();
             ResultSet resultado = comandoSQL.executeQuery(codigoSQL);
 

@@ -18,8 +18,7 @@ import javax.swing.JOptionPane;
 public class AgregarCliente extends javax.swing.JFrame {
 
     ClienteNegocio clienteNegocio;
-    
-    
+
     /**
      * Creates new form AgregarCliente
      */
@@ -27,7 +26,7 @@ public class AgregarCliente extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setSize(805, 600);
-        this.clienteNegocio=clienteNegocio;
+        this.clienteNegocio = clienteNegocio;
     }
 
     /**
@@ -159,7 +158,7 @@ public class AgregarCliente extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        CatalogoClientes  catalogoClientes = new  CatalogoClientes(clienteNegocio);
+        CatalogoClientes catalogoClientes = new CatalogoClientes(clienteNegocio);
         catalogoClientes.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -175,7 +174,8 @@ public class AgregarCliente extends javax.swing.JFrame {
         String contrasena = new String(txtContrasena.getPassword());
         Date fechaNacimiento = jDateChooser1.getDate();
 
-        if (nombreCompleto.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || fechaNacimiento == null) {
+        if (nombreCompleto.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || fechaNacimiento == null)
+        {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -194,7 +194,8 @@ public class AgregarCliente extends javax.swing.JFrame {
         nuevoCliente.setFechaNacimiento(fechaNacimiento);
         nuevoCliente.setUbicacion(txtUbicacion.getText());
 
-        try {
+        try
+        {
             clienteNegocio.agregarCliente(nuevoCliente);
             JOptionPane.showMessageDialog(this, "Cliente agregado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
@@ -202,7 +203,8 @@ public class AgregarCliente extends javax.swing.JFrame {
             txtCorreo.setText("");
             txtContrasena.setText("");
             jDateChooser1.setDate(null);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             JOptionPane.showMessageDialog(this, "Error al agregar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonAgregarActionPerformed
@@ -216,29 +218,36 @@ public class AgregarCliente extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         ConexionBD conexion = new ConexionBD();
-        ClienteDAO clienteDAO= new ClienteDAO (conexion);
-        ClienteNegocio clienteNegiocio=new ClienteNegocio(clienteDAO);
-        
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
+        ClienteNegocio clienteNegiocio = new ClienteNegocio(clienteDAO);
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AgregarCliente(clienteNegiocio).setVisible(true);

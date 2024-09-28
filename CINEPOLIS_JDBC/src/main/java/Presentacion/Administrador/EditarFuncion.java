@@ -19,24 +19,25 @@ public class EditarFuncion extends javax.swing.JFrame {
 
     ClienteNegocio clienteNegocio;
     int idFuncion;
-    
-    
+
     /**
      * Creates new form EditarFuncion
      */
-    public EditarFuncion(ClienteNegocio clienteNegocio, int id) throws SQLException{
+    public EditarFuncion(ClienteNegocio clienteNegocio, int id) throws SQLException {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setSize(750, 570);
-        this.clienteNegocio= clienteNegocio;
-        this.idFuncion=id;
-        
-        try {
+        this.clienteNegocio = clienteNegocio;
+        this.idFuncion = id;
+
+        try
+        {
             FuncionDTO funcion = clienteNegocio.obtenerFuncionPorId(id);
             jDateChooser1.setDate(funcion.getFecha());
             jTextField1.setText(String.valueOf(funcion.getHoraInicio()));
 
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al obtener los detalles de la función: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -139,19 +140,20 @@ public class EditarFuncion extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        AdministrarFunciones administrarFunciones = new  AdministrarFunciones(clienteNegocio);
+        AdministrarFunciones administrarFunciones = new AdministrarFunciones(clienteNegocio);
         administrarFunciones.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-        try {
+        try
+        {
             Date fecha = jDateChooser1.getDate();
             String horaInicioText = jTextField1.getText();
             double horaInicio = Double.parseDouble(horaInicioText);
 
             FuncionDTO funcionEditada = new FuncionDTO();
-            funcionEditada=clienteNegocio.obtenerFuncionPorId(idFuncion);
+            funcionEditada = clienteNegocio.obtenerFuncionPorId(idFuncion);
             funcionEditada.setFecha(fecha);
             funcionEditada.setHoraInicio(horaInicio);
 
@@ -164,13 +166,16 @@ public class EditarFuncion extends javax.swing.JFrame {
             AdministrarFunciones catalogoFunciones = new AdministrarFunciones(clienteNegocio);
             catalogoFunciones.setVisible(true);
 
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al editar la función: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex)
+        {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error en el formato de entrada. Asegúrate de ingresar números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_botonEditarActionPerformed

@@ -29,7 +29,8 @@ public class EditarCliente extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         this.setSize(930, 580);
 
-        try {
+        try
+        {
             ClienteDTO cliente = clienteNegocio.obtenerClientePorID(idCliente);
 
             txtNombre.setText(cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno());
@@ -38,7 +39,8 @@ public class EditarCliente extends javax.swing.JFrame {
             fecha.setTime(cliente.getFechaNacimiento());
             jDateChooser1.setCalendar(fecha);
             txtContrasena.setText(cliente.getContrasena());
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             // Manejo de la excepción
             System.out.println("Error al obtener el cliente por ID: " + ex.getMessage());
             ex.printStackTrace();
@@ -196,7 +198,8 @@ public class EditarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtContrasenaActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-        try {
+        try
+        {
             String nombreCompleto = txtNombre.getText();
             String correo = txtCorreo.getText();
             String contrasena = new String(txtContrasena.getPassword());
@@ -225,7 +228,8 @@ public class EditarCliente extends javax.swing.JFrame {
             CatalogoClientes catalogoClientes = new CatalogoClientes(clienteNegocio);
             catalogoClientes.setVisible(true);
 
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al editar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -233,13 +237,15 @@ public class EditarCliente extends javax.swing.JFrame {
 
     private void mostrarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarContraseñaActionPerformed
         // TODO add your handling code here:
-        if (mostrarContraseña.isSelected()) {
+        if (mostrarContraseña.isSelected())
+        {
             // Si está marcada, mostrar la contraseña como texto plano
             char[] contrasenaChars = txtContrasena.getPassword();
             String contrasena = new String(contrasenaChars);
             txtContrasena.setEchoChar((char) 0); // Establecer el carácter de eco como 0 para mostrar la contraseña
             txtContrasena.setText(contrasena);
-        } else {
+        } else
+        {
             // Si no está marcada, volver a ocultar la contraseña
             txtContrasena.setEchoChar('*'); // Restablecer el carácter de eco para ocultar la contraseña
         }

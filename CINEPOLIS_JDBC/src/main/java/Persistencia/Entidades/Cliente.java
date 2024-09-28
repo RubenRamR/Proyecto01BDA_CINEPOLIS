@@ -128,23 +128,27 @@ public class Cliente {
     }
 
     public static Cliente convertirAEntidad(ResultSet resultado) throws SQLException {
-    int idCliente = resultado.getInt("idCliente");
-    String nombre = resultado.getString("nombre");
-    String apellidoPaterno = resultado.getString("apellidoPaterno");
-    String apellidoMaterno = resultado.getString("apellidoMaterno");
-    String correo = resultado.getString("correo");
-    String contrasena = resultado.getString("contrasena");
-    String ubicacion = resultado.getString("ubicacion");
-    Date fechaNacimiento = resultado.getDate("fechaNacimiento");
+        Cliente cliente = new Cliente();
+        cliente.setId(resultado.getLong("idCliente"));
+        cliente.setNombre(resultado.getString("nombre"));
+        cliente.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+        cliente.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+        cliente.setCorreo(resultado.getString("correo"));
 
-    Long ciudadId = resultado.getLong("ciudadId");
-    String ciudadNombre = resultado.getString("ciudadNombre");
-    String ciudadLocalizacion = resultado.getString("localizacion");
+        String contrasena = resultado.getString("contrasena");
+        System.out.println("Contraseña recuperada: " + contrasena);
+        cliente.setContrasena(contrasena);
 
-    Ciudad ciudad = new Ciudad(ciudadId, ciudadNombre, ciudadLocalizacion);
+        cliente.setUbicacion(resultado.getString("ubicacion"));
+        cliente.setFechaNacimiento(resultado.getDate("fechaNacimiento"));
 
-    return new Cliente(idCliente, nombre, apellidoPaterno, apellidoMaterno, correo, contrasena, ubicacion, fechaNacimiento, ciudad);
-}
+        Ciudad ciudad = new Ciudad();
+        ciudad.setId(resultado.getLong("ciudadId"));
+        ciudad.setNombre(resultado.getString("ciudadNombre"));
+        ciudad.setLocalizacion(resultado.getString("localizacion"));
+        cliente.setCiudad(ciudad);
 
+        return cliente;
+    }
 
 }

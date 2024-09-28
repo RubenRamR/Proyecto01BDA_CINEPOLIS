@@ -17,11 +17,11 @@ public class EditarPelicula extends javax.swing.JFrame {
 
     ClienteNegocio clienteNegocio;
     long idPelicula;
-    
+
     /**
      * Creates new form EditarPelicula
      */
-    public EditarPelicula(ClienteNegocio clienteNegocio,long idPelicula) {
+    public EditarPelicula(ClienteNegocio clienteNegocio, long idPelicula) {
         initComponents();
     }
 
@@ -179,7 +179,7 @@ public class EditarPelicula extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        CatalogoPeliculas  catalogoPeliculas = new  CatalogoPeliculas(clienteNegocio);
+        CatalogoPeliculas catalogoPeliculas = new CatalogoPeliculas(clienteNegocio);
         catalogoPeliculas.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -189,7 +189,8 @@ public class EditarPelicula extends javax.swing.JFrame {
     }//GEN-LAST:event_textoSinopsisActionPerformed
 
     private void btnEditarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPeliculaActionPerformed
-        try {
+        try
+        {
             String titulo = textoTitulo.getText();
             String sinopsis = textoSinopsis.getText();
             String genero = (String) jComboBox1.getSelectedItem();
@@ -211,12 +212,13 @@ public class EditarPelicula extends javax.swing.JFrame {
 
             System.out.println("Ejecutando SQL con ID: " + idPelicula);
 
-            clienteNegocio.editarPelicula( pelicula);
+            clienteNegocio.editarPelicula(pelicula);
             JOptionPane.showMessageDialog(this, "La película se ha editado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             CatalogoPeliculas catalogoPeliculas = new CatalogoPeliculas(clienteNegocio);
             catalogoPeliculas.setVisible(true);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             JOptionPane.showMessageDialog(this, "Error al editar la película: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }

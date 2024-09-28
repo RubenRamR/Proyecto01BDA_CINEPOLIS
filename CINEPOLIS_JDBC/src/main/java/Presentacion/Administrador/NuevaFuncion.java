@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
 public class NuevaFuncion extends javax.swing.JFrame {
 
     ClienteNegocio clienteNegocio;
-    
+
     /**
      * Creates new form NuevaFuncion
      */
@@ -32,17 +32,21 @@ public class NuevaFuncion extends javax.swing.JFrame {
         this.clienteNegocio = clienteNegocio;
         this.setLocationRelativeTo(this);
         this.setSize(800, 580);
-        try {
+        try
+        {
             List<PeliculaDTO> peliculas = clienteNegocio.buscarPeliculasTabla();
-            for (PeliculaDTO pelicula : peliculas) {
+            for (PeliculaDTO pelicula : peliculas)
+            {
                 comboBoxPelicula.addItem(pelicula.getTitulo());
             }
             List<SucursalDTO> sucursales = clienteNegocio.obtenerSucursales();
-            for (SucursalDTO sucursal : sucursales) {
+            for (SucursalDTO sucursal : sucursales)
+            {
                 comboBoxSucursal.addItem(sucursal.getNombre());
             }
 
-        } catch (cinepolisException e) {
+        } catch (cinepolisException e)
+        {
             System.out.println(e.getMessage());
         }
     }
@@ -192,24 +196,28 @@ public class NuevaFuncion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAgregarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFuncionActionPerformed
-        try {
+        try
+        {
             Date fecha = jDateChooser1.getDate();
             String horaInicioStr = textoHoraInicio.getText();
             String peliculaSeleccionada = (String) comboBoxPelicula.getSelectedItem();
             String sucursalSeleccionada = (String) comboBoxSucursal.getSelectedItem();
 
-            if (fecha == null || horaInicioStr.isEmpty() || peliculaSeleccionada.isEmpty()) {
+            if (fecha == null || horaInicioStr.isEmpty() || peliculaSeleccionada.isEmpty())
+            {
                 JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             double horaInicio;
-            try {
+            try
+            {
                 String[] partesHora = horaInicioStr.split(":");
                 int horas = Integer.parseInt(partesHora[0]);
                 int minutos = Integer.parseInt(partesHora[1]);
 
                 horaInicio = horas + minutos / 60.0;
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e)
+            {
                 JOptionPane.showMessageDialog(this, "Formato de hora incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -223,7 +231,8 @@ public class NuevaFuncion extends javax.swing.JFrame {
 
             PeliculaDTO pelicula = clienteNegocio.buscarPeliculaPorTitulo(peliculaSeleccionada);
 
-            if (pelicula == null) {
+            if (pelicula == null)
+            {
                 JOptionPane.showMessageDialog(this, "La película seleccionada no existe", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -231,15 +240,18 @@ public class NuevaFuncion extends javax.swing.JFrame {
             nuevaFuncion.setPeliculaDTO(pelicula);
 
             List<SucursalDTO> sucursales = clienteNegocio.obtenerSucursales();
-            for (int i = 0; i < sucursales.size(); i++) {
+            for (int i = 0; i < sucursales.size(); i++)
+            {
 
-                if (sucursalSeleccionada.equals(sucursales.get(i).getNombre())) {
+                if (sucursalSeleccionada.equals(sucursales.get(i).getNombre()))
+                {
                     nuevaFuncion.setSucursalDTO(sucursales.get(i));
                 }
 
             }
 
-            try {
+            try
+            {
                 System.out.println(pelicula.getId());
                 clienteNegocio.agregarFuncion(nuevaFuncion);
                 JOptionPane.showMessageDialog(this, "Función agregada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -247,12 +259,15 @@ public class NuevaFuncion extends javax.swing.JFrame {
                 jDateChooser1.setDate(null);
                 textoHoraInicio.setText("");
                 comboBoxPelicula.setSelectedIndex(0);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 JOptionPane.showMessageDialog(this, "Error al agregar función: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_btnAgregarFuncionActionPerformed
@@ -278,20 +293,27 @@ public class NuevaFuncion extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(NuevaFuncion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(NuevaFuncion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(NuevaFuncion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(NuevaFuncion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>

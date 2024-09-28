@@ -135,22 +135,26 @@ public class CatalogoClientes extends javax.swing.JFrame {
 
     private void llenarTablaClientes(List<ClienteDTO> clienteLista) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
-
-        // Clear existing rows
-        modeloTabla.setRowCount(0);
+        modeloTabla.setRowCount(0); // Limpiar filas existentes
 
         if (clienteLista != null)
         {
             clienteLista.forEach(row ->
             {
-                Object[] fila = new Object[6]; // Adjust the array size to match the number of columns
+                Object[] fila = new Object[6];
                 fila[0] = row.getId();
                 fila[1] = row.getNombre() + " " + row.getApellidoPaterno() + " " + row.getApellidoMaterno();
                 fila[2] = row.getCorreo();
-                fila[3] = row.getContrasena();
-                fila[4] = "Eliminar";
-                fila[5] = "Editar";
-                modeloTabla.addRow(fila); // Add row data to the table model
+
+                // Debugging
+                String contrasena = row.getContrasena();
+                System.out.println("Contraseña para el cliente " + row.getNombre() + ": " + contrasena); // Verifica que la contraseña sea la correcta
+
+                fila[3] = contrasena; // Esto debe ser la contraseña
+
+                fila[4] = "Eliminar"; // Acción de eliminar
+                fila[5] = "Editar"; // Acción de editar
+                modeloTabla.addRow(fila);
             });
         }
     }
@@ -256,7 +260,15 @@ public class CatalogoClientes extends javax.swing.JFrame {
             new String [] {
                 "ID", "Nombre", "Correo", "Contraseña", "Eliminar", "Editar"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblClientes);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 790, 260));

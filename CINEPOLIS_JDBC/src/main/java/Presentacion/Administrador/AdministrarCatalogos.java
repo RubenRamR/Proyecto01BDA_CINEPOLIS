@@ -15,14 +15,14 @@ import Persistencia.DAOs.ConexionBD;
 public class AdministrarCatalogos extends javax.swing.JFrame {
 
     ClienteNegocio clienteNegocio;
-    
+
     /**
      * Creates new form AdministrarCatalogos
      */
     public AdministrarCatalogos(ClienteNegocio clienteNegocio) {
         initComponents();
         this.clienteNegocio = clienteNegocio;
-         this.setLocationRelativeTo(this);
+        this.setLocationRelativeTo(this);
         this.setSize(690, 560);
     }
 
@@ -136,7 +136,7 @@ public class AdministrarCatalogos extends javax.swing.JFrame {
 
     private void btnCatalogoPeliculas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoPeliculas1ActionPerformed
         // TODO add your handling code here:
-        CatalogoPeliculas p= new CatalogoPeliculas(clienteNegocio);
+        CatalogoPeliculas p = new CatalogoPeliculas(clienteNegocio);
         p.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCatalogoPeliculas1ActionPerformed
@@ -146,9 +146,9 @@ public class AdministrarCatalogos extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         ConexionBD conexion = new ConexionBD();
-        ClienteDAO clienteDAO= new ClienteDAO (conexion);
-        ClienteNegocio clienteNegocio=new ClienteNegocio(clienteDAO);
-        
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
+        ClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AdministrarCatalogos(clienteNegocio).setVisible(true);

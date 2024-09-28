@@ -29,10 +29,10 @@ import utilerias.JButtonRenderer;
 public class AdministrarFunciones extends javax.swing.JFrame {
 
     ClienteNegocio clienteNegocio;
-    private int pagina=1;
-    private int LIMITE=3;
+    private int pagina = 1;
+    private int LIMITE = 3;
     boolean conFiltro;
-    
+
     /**
      * Creates new form AdministrarFunciones
      */
@@ -46,32 +46,36 @@ public class AdministrarFunciones extends javax.swing.JFrame {
 
     private long getIdSeleccionadoTablaFunciones() {
         int indiceFilaSeleccionada = this.tblFunciones.getSelectedRow();
-        if (indiceFilaSeleccionada != -1) {
+        if (indiceFilaSeleccionada != -1)
+        {
             DefaultTableModel modelo = (DefaultTableModel) this.tblFunciones.getModel();
             long indiceColumnaId = 0;
             long idSocioSeleccionado = (long) modelo.getValueAt(indiceFilaSeleccionada,
-                   (int) indiceColumnaId);
+                    (int) indiceColumnaId);
             return idSocioSeleccionado;
-        } else {
+        } else
+        {
             return 0;
         }
     }
-    
+
     private void cargarMetodosIniciales() {
         this.cargarConfiguracionInicialTablaFunciones();
         this.cargarFuncionesEnTabla();
     }
-    
+
     private void cargarConfiguracionInicialTablaFunciones() {
         ActionListener onEditarClickListener = new ActionListener() {
             final int columnaId = 0;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                try
+                {
                     //Metodo para editar un alumno
                     editar();
-                } catch (SQLException ex) {
+                } catch (SQLException ex)
+                {
                     System.out.println(ex.getMessage());
                 }
             }
@@ -79,7 +83,7 @@ public class AdministrarFunciones extends javax.swing.JFrame {
         int indiceColumnaEditar = 4;
         TableColumnModel modeloColumnas = this.tblFunciones.getColumnModel();
         Color color = new Color(178, 218, 250);
-        modeloColumnas.getColumn(indiceColumnaEditar).setCellRenderer(new JButtonRenderer("Editar",color));
+        modeloColumnas.getColumn(indiceColumnaEditar).setCellRenderer(new JButtonRenderer("Editar", color));
         modeloColumnas.getColumn(indiceColumnaEditar).setCellEditor(new JButtonCellEditor("Editar", onEditarClickListener));
 
         ActionListener onEliminarClickListener = new ActionListener() {
@@ -87,104 +91,115 @@ public class AdministrarFunciones extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                try
+                {
                     eliminar();
-                } catch (SQLException ex) {
+                } catch (SQLException ex)
+                {
                     System.out.println(ex.getMessage());
                 }
             }
         };
         int indiceColumnaEliminar = 5;
         color = new Color(255, 105, 97);
-        modeloColumnas.getColumn(indiceColumnaEliminar).setCellRenderer(new JButtonRenderer("Eliminar",color));
+        modeloColumnas.getColumn(indiceColumnaEliminar).setCellRenderer(new JButtonRenderer("Eliminar", color));
         modeloColumnas.getColumn(indiceColumnaEliminar).setCellEditor(new JButtonCellEditor("Eliminar", onEliminarClickListener));
-        }
-    
+    }
+
     private void editar() throws SQLException {
         long id = this.getIdSeleccionadoTablaFunciones();
         EditarFuncion editar = new EditarFuncion(this.clienteNegocio, (int) id);
         this.setVisible(false);
         editar.show();
     }
-    
+
     private void eliminar() throws SQLException {
-        try {
-        long id = this.getIdSeleccionadoTablaFunciones();
-        FuncionDTO funcion = clienteNegocio.obtenerFuncionPorId(id);
-        int confirmacion = JOptionPane.showConfirmDialog(this, 
-                            "¿Está seguro que desea eliminar al cliente?\n" +
-                            "ID: " + funcion.getId()+ "\n" +
-                            "Pelicula: " + funcion.getPeliculaDTO().getTitulo()+ "\n" +
-                            "Fecha: " + funcion.getFecha().toString(),
-                            "Confirmar eliminación",
-                            JOptionPane.YES_NO_OPTION);
-        
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            clienteNegocio.eliminarFuncion(id);
-            JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            cargarFuncionesEnTabla();
-        }
-        } catch (cinepolisException ex) {
+        try
+        {
+            long id = this.getIdSeleccionadoTablaFunciones();
+            FuncionDTO funcion = clienteNegocio.obtenerFuncionPorId(id);
+            int confirmacion = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro que desea eliminar al cliente?\n"
+                    + "ID: " + funcion.getId() + "\n"
+                    + "Pelicula: " + funcion.getPeliculaDTO().getTitulo() + "\n"
+                    + "Fecha: " + funcion.getFecha().toString(),
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirmacion == JOptionPane.YES_OPTION)
+            {
+                clienteNegocio.eliminarFuncion(id);
+                JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarFuncionesEnTabla();
+            }
+        } catch (cinepolisException ex)
+        {
             JOptionPane.showMessageDialog(this, "Error al eliminar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void llenarTablaFunciones(List<FuncionDTO> clienteLista) {
-         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblFunciones.getModel();
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblFunciones.getModel();
 
-    // Clear existing rows
-    modeloTabla.setRowCount(0);
+        // Clear existing rows
+        modeloTabla.setRowCount(0);
 
-    if (clienteLista != null) {
-        clienteLista.forEach(row -> {
-            Object[] fila = new Object[6];
-            fila[0] = row.getId();
-            fila[1] = row.getFecha();
-            fila[2] = row.getHoraInicio();
-            fila[3] = row.getPeliculaDTO().getDuracion();
-            fila[4] = "Eliminar";
-            fila[5] = "Editar"; 
-            modeloTabla.addRow(fila); 
-        });
-    }
-    }
-    
-    private void cargarFuncionesEnTabla() {
-    try {
-        int indiceInicio = (pagina - 1) * LIMITE;
-        List<FuncionDTO> todasLasFunciones = clienteNegocio.buscarFuncionesTabla();
-        int indiceFin = Math.min(indiceInicio + LIMITE, todasLasFunciones.size());
-
-        List<FuncionDTO> funcionesPagina = obtenerFuncionesPagina(indiceInicio, indiceFin);
-
-        llenarTablaFunciones(funcionesPagina);
-
-        actualizarNumeroDePagina();
-    } catch (cinepolisException ex) {
-        ex.printStackTrace();
-    }
-    }
-    
-    private List<FuncionDTO> obtenerFuncionesPagina(int indiceInicio, int indiceFin) {
-            try {
-        List<FuncionDTO> todasLasFunciones = clienteNegocio.buscarFuncionesTabla();
-        List<FuncionDTO> funcionesPaginas = new ArrayList<>();
-
-        indiceFin = Math.min(indiceFin, todasLasFunciones.size());
-
-        for (int i = indiceInicio; i < indiceFin; i++) {
-            funcionesPaginas.add(todasLasFunciones.get(i));
+        if (clienteLista != null)
+        {
+            clienteLista.forEach(row ->
+            {
+                Object[] fila = new Object[6];
+                fila[0] = row.getId();
+                fila[1] = row.getFecha();
+                fila[2] = row.getHoraInicio();
+                fila[3] = row.getPeliculaDTO().getDuracion();
+                fila[4] = "Eliminar";
+                fila[5] = "Editar";
+                modeloTabla.addRow(fila);
+            });
         }
-        
-        return funcionesPaginas;
-            } catch (cinepolisException ex) {
- 
-                ex.printStackTrace();
-                return Collections.emptyList();
-            }
     }
 
-    
+    private void cargarFuncionesEnTabla() {
+        try
+        {
+            int indiceInicio = (pagina - 1) * LIMITE;
+            List<FuncionDTO> todasLasFunciones = clienteNegocio.buscarFuncionesTabla();
+            int indiceFin = Math.min(indiceInicio + LIMITE, todasLasFunciones.size());
+
+            List<FuncionDTO> funcionesPagina = obtenerFuncionesPagina(indiceInicio, indiceFin);
+
+            llenarTablaFunciones(funcionesPagina);
+
+            actualizarNumeroDePagina();
+        } catch (cinepolisException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    private List<FuncionDTO> obtenerFuncionesPagina(int indiceInicio, int indiceFin) {
+        try
+        {
+            List<FuncionDTO> todasLasFunciones = clienteNegocio.buscarFuncionesTabla();
+            List<FuncionDTO> funcionesPaginas = new ArrayList<>();
+
+            indiceFin = Math.min(indiceFin, todasLasFunciones.size());
+
+            for (int i = indiceInicio; i < indiceFin; i++)
+            {
+                funcionesPaginas.add(todasLasFunciones.get(i));
+            }
+
+            return funcionesPaginas;
+        } catch (cinepolisException ex)
+        {
+
+            ex.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -248,10 +263,7 @@ public class AdministrarFunciones extends javax.swing.JFrame {
 
         tblFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Fecha", "Hora Inicio", "Duracion", "Eliminar", "Editar"
@@ -320,7 +332,9 @@ public class AdministrarFunciones extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 874, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,7 +361,8 @@ public class AdministrarFunciones extends javax.swing.JFrame {
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
-        if (pagina > 1) {
+        if (pagina > 1)
+        {
             pagina--;
             cargarFuncionesEnTabla();
             actualizarNumeroDePagina();
@@ -356,70 +371,82 @@ public class AdministrarFunciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        try {
+        try
+        {
             List<FuncionDTO> todasLasFunciones = clienteNegocio.buscarFuncionesTabla();
 
             int totalPaginas = (int) Math.ceil((double) todasLasFunciones.size() / LIMITE);
 
-            if (pagina < totalPaginas) {
+            if (pagina < totalPaginas)
+            {
                 pagina++;
                 cargarFuncionesEnTabla();
                 actualizarNumeroDePagina();
-            } else {
+            } else
+            {
 
                 JOptionPane.showMessageDialog(this, "No hay más páginas disponibles", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void NumeroDePaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumeroDePaginaActionPerformed
         // TODO add your handling code here:
-        try {
+        try
+        {
             List<FuncionDTO> todasLasFunciones = clienteNegocio.buscarFuncionesTabla();
 
             int totalPaginas = (int) Math.ceil((double) todasLasFunciones.size() / LIMITE);
 
             int nuevaPagina = Integer.parseInt(NumeroDePagina.getText());
 
-            if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+            if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas)
+            {
                 pagina = nuevaPagina;
 
                 cargarFuncionesEnTabla();
 
                 actualizarNumeroDePagina();
-            } else {
+            } else
+            {
                 JOptionPane.showMessageDialog(this, "Número de página inválido", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex)
+        {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido para la página", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_NumeroDePaginaActionPerformed
 
     private void CambiarLimiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarLimiteActionPerformed
-        try {
-            if(conFiltro=false){
+        try
+        {
+            if (conFiltro = false)
+            {
 
                 int nuevoLimite = Integer.parseInt(CambiarLimite.getText());
                 this.LIMITE = nuevoLimite;
                 cargarFuncionesEnTabla();
                 actualizarNumeroDePagina();
-            }else{
+            } else
+            {
 
             }
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex)
+        {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido para el límite", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_CambiarLimiteActionPerformed
 
     private void actualizarNumeroDePagina() {
-    NumeroDePagina.setText(""+pagina);
+        NumeroDePagina.setText("" + pagina);
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -429,28 +456,35 @@ public class AdministrarFunciones extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(AdministrarFunciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(AdministrarFunciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(AdministrarFunciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(AdministrarFunciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         ConexionBD conexion = new ConexionBD();
-        ClienteDAO clienteDAO= new ClienteDAO (conexion);
-        ClienteNegocio clienteNegocio=new ClienteNegocio(clienteDAO);
-        
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
+        ClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AdministrarFunciones(clienteNegocio).setVisible(true);

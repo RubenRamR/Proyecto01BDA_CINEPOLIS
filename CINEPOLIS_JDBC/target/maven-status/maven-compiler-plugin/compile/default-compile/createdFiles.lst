@@ -179,6 +179,7 @@ Negocio\DTOs\SalaDTO.class
 Presentacion\SucursalesCartelera$5.class
 Negocio\Negocio\IReporteNegocio.class
 Persistencia\Entidades\Sucursal.class
+Presentacion\Administrador\SeleccionarSucursal$2.class
 Presentacion\Administrador\AgregarPeliculas$1.class
 Presentacion\Administrador\AdministrarCatalogos$3.class
 Presentacion\Administrador\NuevaFuncion$6.class

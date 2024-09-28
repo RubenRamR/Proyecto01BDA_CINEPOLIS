@@ -13,7 +13,7 @@ import java.util.Date;
  * @author rramirez
  */
 public class Cliente {
-    
+
     //Declaración de variables
     private long id;
     private String nombre;
@@ -23,14 +23,15 @@ public class Cliente {
     private String contrasena;
     private String ubicacion;
     private Date fechaNacimiento;
-    
+    private Ciudad ciudad;
+
     //Constructor por omisión
-    public Cliente(){
-        
+    public Cliente() {
+
     }
 
     //Constructor que inicializa las variables
-    public Cliente(long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento) {
+    public Cliente(long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, Ciudad ciudad) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -39,10 +40,10 @@ public class Cliente {
         this.contrasena = contrasena;
         this.ubicacion = ubicacion;
         this.fechaNacimiento = fechaNacimiento;
+        this.ciudad = ciudad;
     }
 
-    //Constructor de variables
-    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento) {
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, Ciudad ciudad) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -50,6 +51,7 @@ public class Cliente {
         this.contrasena = contrasena;
         this.ubicacion = ubicacion;
         this.fechaNacimiento = fechaNacimiento;
+        this.ciudad = ciudad;
     }
 
     //gets y sets
@@ -116,19 +118,33 @@ public class Cliente {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
-    //Método que convierte a entidad
-    public static Cliente convertirAEntidad(ResultSet resultado) throws SQLException {
-        int idCliente = resultado.getInt("idCliente");
-        String nombre = resultado.getString("nombre");
-        String apellidoPaterno = resultado.getString("apellidoPaterno");
-        String apellidoMaterno = resultado.getString("apellidoMaterno");
-        String correo = resultado.getString("correo");
-        String contrasena = resultado.getString("contrasena");
-        String ubicacion = resultado.getString("ubicacion");
-        Date fechaNacimiento = resultado.getDate("fechaNacimiento");
 
-        return new Cliente(idCliente, nombre, apellidoPaterno, apellidoMaterno, correo, contrasena, ubicacion, fechaNacimiento);
+    public Ciudad getCiudad() {
+        return ciudad;
     }
-    
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public static Cliente convertirAEntidad(ResultSet resultado) throws SQLException {
+    int idCliente = resultado.getInt("idCliente");
+    String nombre = resultado.getString("nombre");
+    String apellidoPaterno = resultado.getString("apellidoPaterno");
+    String apellidoMaterno = resultado.getString("apellidoMaterno");
+    String correo = resultado.getString("correo");
+    String contrasena = resultado.getString("contrasena");
+    String ubicacion = resultado.getString("ubicacion");
+    Date fechaNacimiento = resultado.getDate("fechaNacimiento");
+
+    Long ciudadId = resultado.getLong("ciudadId");
+    String ciudadNombre = resultado.getString("ciudadNombre");
+    String ciudadLocalizacion = resultado.getString("localizacion");
+
+    Ciudad ciudad = new Ciudad(ciudadId, ciudadNombre, ciudadLocalizacion);
+
+    return new Cliente(idCliente, nombre, apellidoPaterno, apellidoMaterno, correo, contrasena, ubicacion, fechaNacimiento, ciudad);
+}
+
+
 }

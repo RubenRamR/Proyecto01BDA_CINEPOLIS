@@ -2,35 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Persistencia.Entidades;
+package Negocio.DTOs;
 
 /**
  *
- * @author stae
+ * @author rramirez
  */
-public class Ciudad {
-
+public class CiudadDTO {
+    
     //declaración de variables
     private Long id;
     private String nombre;
     private String localizacion;
 
     //Constructor por omisión
-    public Ciudad() {
-    }
-
-    public Ciudad(String nombre) {
-        this.nombre = nombre;
+    public CiudadDTO() {
     }
 
     //Constructor que incializa las variables nombre y localizacion
-    public Ciudad(String nombre, String localizacion) {
+    public CiudadDTO(String nombre, String localizacion) {
         this.nombre = nombre;
         this.localizacion = localizacion;
     }
 
     //Constructor que inicializa variables
-    public Ciudad(Long id, String nombre, String localizacion) {
+    public CiudadDTO(Long id, String nombre, String localizacion) {
         this.id = id;
         this.nombre = nombre;
         this.localizacion = localizacion;
@@ -63,7 +59,6 @@ public class Ciudad {
 
     @Override
     public String toString() {
-        return "Ciudad{" + "id=" + id + ", nombre=" + nombre + ", localizacion=" + localizacion + '}';
+        return "CiudadDTO{" + "id=" + id + ", nombre=" + nombre + ", localizacion=" + localizacion + '}';
     }
-
 }

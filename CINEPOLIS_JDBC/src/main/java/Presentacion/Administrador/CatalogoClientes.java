@@ -27,41 +27,39 @@ import utilerias.JButtonRenderer;
  */
 public class CatalogoClientes extends javax.swing.JFrame {
 
-    private int pagina=1;
-    private int LIMITE=5;
+    private int pagina = 1;
+    private int LIMITE = 2;
     ClienteNegocio clienteNegocio;
     boolean conFiltro;
-    
-    
-    
-    
+
     /**
      * Creates new form CatalogoClientes
      */
     public CatalogoClientes(ClienteNegocio clienteNegocio) {
         initComponents();
-        initComponents();
-        this.clienteNegocio=clienteNegocio;
-         this.setLocationRelativeTo(this);
-        this.setSize(955, 600);
+        this.clienteNegocio = clienteNegocio;
+        this.setLocationRelativeTo(this);
         this.cargarMetodosIniciales();
+        this.setSize(955, 600);
         NumeroDePagina.setEditable(false);
-        conFiltro=false;
+        conFiltro = false;
     }
-    
+
     private long getIdSeleccionadoTablaClientes() {
         int indiceFilaSeleccionada = this.tblClientes.getSelectedRow();
-        if (indiceFilaSeleccionada != -1) {
+        if (indiceFilaSeleccionada != -1)
+        {
             DefaultTableModel modelo = (DefaultTableModel) this.tblClientes.getModel();
             long indiceColumnaId = 0;
             long idSocioSeleccionado = (long) modelo.getValueAt(indiceFilaSeleccionada,
-                   (int) indiceColumnaId);
+                    (int) indiceColumnaId);
             return idSocioSeleccionado;
-        } else {
+        } else
+        {
             return 0;
         }
     }
-    
+
     private void cargarMetodosIniciales() {
         this.cargarConfiguracionInicialTablaClientes();
         this.cargarClientesEnTabla();
@@ -80,7 +78,7 @@ public class CatalogoClientes extends javax.swing.JFrame {
         int indiceColumnaEditar = 4;
         TableColumnModel modeloColumnas = this.tblClientes.getColumnModel();
         Color color = new Color(178, 218, 250);
-        modeloColumnas.getColumn(indiceColumnaEditar).setCellRenderer(new JButtonRenderer("Editar",color));
+        modeloColumnas.getColumn(indiceColumnaEditar).setCellRenderer(new JButtonRenderer("Editar", color));
         modeloColumnas.getColumn(indiceColumnaEditar).setCellEditor(new JButtonCellEditor("Editar", onEditarClickListener));
 
         ActionListener onEliminarClickListener = new ActionListener() {
@@ -93,104 +91,122 @@ public class CatalogoClientes extends javax.swing.JFrame {
         };
         int indiceColumnaEliminar = 5;
         color = new Color(255, 105, 97);
-        modeloColumnas.getColumn(indiceColumnaEliminar).setCellRenderer(new JButtonRenderer("Eliminar",color));
+        modeloColumnas.getColumn(indiceColumnaEliminar).setCellRenderer(new JButtonRenderer("Eliminar", color));
         modeloColumnas.getColumn(indiceColumnaEliminar).setCellEditor(new JButtonCellEditor("Eliminar", onEliminarClickListener));
-        }
-    
-    
-    
+    }
+
     private void editar() {
-    try {
-        long id = this.getIdSeleccionadoTablaClientes();
-        EditarCliente editar = new EditarCliente(this.clienteNegocio, id);
-        this.setVisible(false);
-        editar.show();
-    } catch (excepciones.cinepolisException e) {
-        System.out.println("Error: " + e.getMessage());
-    }
-    }
-    
-    private void eliminar() {
-        try {
-        long id = this.getIdSeleccionadoTablaClientes();
-        ClienteDTO cliente = clienteNegocio.obtenerClientePorID(id);
-        int confirmacion = JOptionPane.showConfirmDialog(this, 
-                            "¿Está seguro que desea eliminar al cliente?\n" +
-                            "ID: " + cliente.getId() + "\n" +
-                            "Nombre: " + cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno() + "\n" +
-                            "Correo: " + cliente.getCorreo(),
-                            "Confirmar eliminación",
-                            JOptionPane.YES_NO_OPTION);
-        
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            clienteNegocio.eliminarCliente(id);
-            JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            cargarClientesEnTabla();
+        try
+        {
+            long id = this.getIdSeleccionadoTablaClientes();
+            EditarCliente editar = new EditarCliente(this.clienteNegocio, id);
+            this.setVisible(false);
+            editar.show();
+        } catch (excepciones.cinepolisException e)
+        {
+            System.out.println("Error: " + e.getMessage());
         }
-        } catch (cinepolisException ex) {
+    }
+
+    private void eliminar() {
+        try
+        {
+            long id = this.getIdSeleccionadoTablaClientes();
+            ClienteDTO cliente = clienteNegocio.obtenerClientePorID(id);
+            int confirmacion = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro que desea eliminar al cliente?\n"
+                    + "ID: " + cliente.getId() + "\n"
+                    + "Nombre: " + cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno() + "\n"
+                    + "Correo: " + cliente.getCorreo(),
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirmacion == JOptionPane.YES_OPTION)
+            {
+                clienteNegocio.eliminarCliente(id);
+                JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarClientesEnTabla();
+            }
+        } catch (cinepolisException ex)
+        {
             JOptionPane.showMessageDialog(this, "Error al eliminar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void llenarTablaClientes(List<ClienteDTO> clienteLista) {
-         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
 
-    // Clear existing rows
-    modeloTabla.setRowCount(0);
+        // Clear existing rows
+        modeloTabla.setRowCount(0);
 
-    if (clienteLista != null) {
-        clienteLista.forEach(row -> {
-            Object[] fila = new Object[6]; // Adjust the array size to match the number of columns
-            fila[0] = row.getId();
-            fila[1] = row.getNombre() + " " + row.getApellidoPaterno() + " " + row.getApellidoMaterno();
-            fila[2] = row.getCorreo();
-            fila[3] = row.getContrasena();
-            fila[4] = "Eliminar";
-            fila[5] = "Editar"; 
-            modeloTabla.addRow(fila); // Add row data to the table model
-        });
-    }
-    }
-     
-    private void cargarClientesEnTabla() {
-    try {
-        int indiceInicio = (pagina - 1) * LIMITE;
-        List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientesTabla();
-        int indiceFin = Math.min(indiceInicio + LIMITE, todosLosClientes.size());
-
-        List<ClienteDTO> clientesPagina = obtenerClientesPagina(indiceInicio, indiceFin);
-
-        llenarTablaClientes(clientesPagina);
-
-        actualizarNumeroDePagina();
-    } catch (cinepolisException ex) {
-        ex.printStackTrace();
-    }
-    }
-    
-    
-    private List<ClienteDTO> obtenerClientesPagina(int indiceInicio, int indiceFin) {
-            try {
-        List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientesTabla();
-        List<ClienteDTO> clientesPaginas = new ArrayList<>();
-
-        indiceFin = Math.min(indiceFin, todosLosClientes.size());
-
-        for (int i = indiceInicio; i < indiceFin; i++) {
-            clientesPaginas.add(todosLosClientes.get(i));
+        if (clienteLista != null)
+        {
+            clienteLista.forEach(row ->
+            {
+                Object[] fila = new Object[6]; // Adjust the array size to match the number of columns
+                fila[0] = row.getId();
+                fila[1] = row.getNombre() + " " + row.getApellidoPaterno() + " " + row.getApellidoMaterno();
+                fila[2] = row.getCorreo();
+                fila[3] = row.getContrasena();
+                fila[4] = "Eliminar";
+                fila[5] = "Editar";
+                modeloTabla.addRow(fila); // Add row data to the table model
+            });
         }
-        
-        return clientesPaginas;
-            } catch (cinepolisException ex) {
- 
-                ex.printStackTrace();
-                return Collections.emptyList();
-            }
     }
-    
-    
-    
-    
+
+    private void cargarClientesEnTabla() {
+        try
+        {
+            int indiceInicio = (pagina - 1) * LIMITE;
+            List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientesTabla();
+
+            // Imprimir el número total de clientes
+            System.out.println("Número total de clientes: " + todosLosClientes.size());
+
+            // Validar si hay clientes
+            if (todosLosClientes.isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "No hay clientes disponibles para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                return; // Salir si no hay clientes
+            }
+
+            int indiceFin = Math.min(indiceInicio + LIMITE, todosLosClientes.size());
+            List<ClienteDTO> clientesPagina = obtenerClientesPagina(indiceInicio, indiceFin);
+
+            // Verifica si se están obteniendo clientes de la página
+            System.out.println("Número de clientes en la página: " + clientesPagina.size());
+
+            llenarTablaClientes(clientesPagina);
+            actualizarNumeroDePagina();
+        } catch (cinepolisException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    private List<ClienteDTO> obtenerClientesPagina(int indiceInicio, int indiceFin) {
+        try
+        {
+            List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientesTabla();
+            List<ClienteDTO> clientesPaginas = new ArrayList<>();
+
+            indiceFin = Math.min(indiceFin, todosLosClientes.size());
+
+            for (int i = indiceInicio; i < indiceFin; i++)
+            {
+                clientesPaginas.add(todosLosClientes.get(i));
+            }
+
+            return clientesPaginas;
+        } catch (cinepolisException ex)
+        {
+
+            ex.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -214,6 +230,8 @@ public class CatalogoClientes extends javax.swing.JFrame {
         textoFiltroNombre = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         botonRestaurar = new javax.swing.JButton();
+        LblCiudad = new javax.swing.JLabel();
+        textoFiltroCiudad = new javax.swing.JTextField();
         btnNuevoCliente = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
@@ -233,10 +251,7 @@ public class CatalogoClientes extends javax.swing.JFrame {
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nombre", "Correo", "Contraseña", "Eliminar", "Editar"
@@ -279,6 +294,10 @@ public class CatalogoClientes extends javax.swing.JFrame {
             }
         });
 
+        LblCiudad.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
+        LblCiudad.setForeground(new java.awt.Color(255, 255, 255));
+        LblCiudad.setText("Ciudad:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -292,9 +311,15 @@ public class CatalogoClientes extends javax.swing.JFrame {
                             .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(49, 49, 49)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(216, 216, 216)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(49, 49, 49)
+                                .addComponent(LblCiudad))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(textoFiltroCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -302,11 +327,11 @@ public class CatalogoClientes extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnBuscar))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 326, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(211, 211, 211)
                         .addComponent(botonRestaurar)))
-                .addGap(0, 24, Short.MAX_VALUE))
+                .addGap(0, 28, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,15 +345,17 @@ public class CatalogoClientes extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(LblCiudad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(textoFiltroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscar))
+                        .addComponent(btnBuscar)
+                        .addComponent(textoFiltroCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 770, 80));
@@ -383,6 +410,7 @@ public class CatalogoClientes extends javax.swing.JFrame {
         });
         jPanel1.add(CambiarLimite, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 500, 20, 40));
 
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel7.setText("Numero de Resultados");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, -1, -1));
@@ -409,7 +437,8 @@ public class CatalogoClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        if (pagina > 1) {
+        if (pagina > 1)
+        {
             pagina--;
             cargarClientesEnTabla();
             actualizarNumeroDePagina();
@@ -418,84 +447,101 @@ public class CatalogoClientes extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
-        try {
+        try
+        {
             List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientesTabla();
 
             int totalPaginas = (int) Math.ceil((double) todosLosClientes.size() / LIMITE);
 
-            if (pagina < totalPaginas) {
+            if (pagina < totalPaginas)
+            {
                 pagina++;
                 cargarClientesEnTabla();
                 actualizarNumeroDePagina();
-            } else {
+            } else
+            {
 
                 JOptionPane.showMessageDialog(this, "No hay más páginas disponibles", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void NumeroDePaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumeroDePaginaActionPerformed
         // TODO add your handling code here:
-        try {
+        try
+        {
             List<ClienteDTO> todosLosclientes = clienteNegocio.buscarClientesTabla();
 
             int totalPaginas = (int) Math.ceil((double) todosLosclientes.size() / LIMITE);
 
             int nuevaPagina = Integer.parseInt(NumeroDePagina.getText());
 
-            if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+            if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas)
+            {
                 pagina = nuevaPagina;
 
                 cargarClientesEnTabla();
 
                 actualizarNumeroDePagina();
-            } else {
+            } else
+            {
                 JOptionPane.showMessageDialog(this, "Número de página inválido", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex)
+        {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido para la página", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_NumeroDePaginaActionPerformed
 
     private void CambiarLimiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarLimiteActionPerformed
-        try {
-            if(conFiltro=false){
+        try
+        {
+            if (conFiltro = false)
+            {
 
                 int nuevoLimite = Integer.parseInt(CambiarLimite.getText());
                 this.LIMITE = nuevoLimite;
                 cargarClientesEnTabla();
                 actualizarNumeroDePagina();
-            }else{
+            } else
+            {
                 int nuevoLimite = Integer.parseInt(CambiarLimite.getText());
                 this.LIMITE = nuevoLimite;
                 String nombreFiltro = textoFiltroNombre.getText();
                 java.sql.Date fechaInicio = null;
-                if (jDateChooser1.getDate() != null) {
+                if (jDateChooser1.getDate() != null)
+                {
                     fechaInicio = new java.sql.Date(jDateChooser1.getDate().getTime());
                 }
                 java.sql.Date fechaFin = null;
-                if (jDateChooser2.getDate() != null) {
+                if (jDateChooser2.getDate() != null)
+                {
                     fechaFin = new java.sql.Date(jDateChooser2.getDate().getTime());
                 }
-                cargarClientesEnTablaActualizada(nombreFiltro, fechaInicio, fechaFin);
+                String ciudadFiltro = textoFiltroCiudad.getText();
+                cargarClientesEnTablaActualizada(nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
                 actualizarNumeroDePagina();
-                conFiltro=true;
+                conFiltro = true;
             }
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex)
+        {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido para el límite", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_CambiarLimiteActionPerformed
 
     private void botonRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRestaurarActionPerformed
         // TODO add your handling code here:
-        conFiltro=false;
+        conFiltro = false;
         textoFiltroNombre.setText("");
         jDateChooser1.setDate(null);
         jDateChooser2.setDate(null);
+        textoFiltroCiudad.setText("");
         this.cargarMetodosIniciales();
     }//GEN-LAST:event_botonRestaurarActionPerformed
 
@@ -503,85 +549,98 @@ public class CatalogoClientes extends javax.swing.JFrame {
         String nombreFiltro = textoFiltroNombre.getText();
         // Verificar si jDateChooser1 tiene una fecha seleccionada
         java.sql.Date fechaInicio = null;
-        if (jDateChooser1.getDate() != null) {
+        if (jDateChooser1.getDate() != null)
+        {
             fechaInicio = new java.sql.Date(jDateChooser1.getDate().getTime());
         }
         // Verificar si jDateChooser2 tiene una fecha seleccionada
         java.sql.Date fechaFin = null;
-        if (jDateChooser2.getDate() != null) {
+        if (jDateChooser2.getDate() != null)
+        {
             fechaFin = new java.sql.Date(jDateChooser2.getDate().getTime());
         }
-        cargarClientesEnTablaActualizada(nombreFiltro, fechaInicio, fechaFin);
+        String ciudadFiltro = textoFiltroCiudad.getText();
+
+        // Reiniciar la página a 1 antes de buscar
+        pagina = 1; // Reinicia la página a 1
+
+        // Cargar clientes en la tabla con los filtros
+        cargarClientesEnTablaActualizada(nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
+
+        // Actualiza el número de página
         actualizarNumeroDePagina();
-        conFiltro=true;
+
+        // Indica que hay un filtro aplicado
+        conFiltro = true;
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    
-    
-    private List<ClienteDTO> obtenerClientesPaginaActualizado(int indiceInicio, int indiceFin,String nombreFiltro, java.sql.Date fechaInicio, java.sql.Date fechaFin) {
-            try {
-        List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientes(nombreFiltro, fechaInicio, fechaFin);
-        List<ClienteDTO> clientesPaginas = new ArrayList<>();
+    private List<ClienteDTO> obtenerClientesPaginaActualizado(int indiceInicio, int indiceFin, String nombreFiltro, java.sql.Date fechaInicio, java.sql.Date fechaFin, String ciudadFiltro) {
+        try
+        {
+            List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientes(nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
+            List<ClienteDTO> clientesPaginas = new ArrayList<>();
 
-        indiceFin = Math.min(indiceFin, todosLosClientes.size());
+            indiceFin = Math.min(indiceFin, todosLosClientes.size());
 
-        for (int i = indiceInicio; i < indiceFin; i++) {
-            clientesPaginas.add(todosLosClientes.get(i));
-        }
-        
-        return clientesPaginas;
-            } catch (cinepolisException ex) {
- 
-                ex.printStackTrace();
-                return Collections.emptyList();
+            for (int i = indiceInicio; i < indiceFin; i++)
+            {
+                clientesPaginas.add(todosLosClientes.get(i));
             }
+
+            return clientesPaginas;
+        } catch (cinepolisException ex)
+        {
+
+            ex.printStackTrace();
+            return Collections.emptyList();
+        }
     }
-    
-    
+
     private void cargarClientesEnTabla(List<ClienteDTO> clientesEncontrados) {
         DefaultTableModel modeloTabla = (DefaultTableModel) tblClientes.getModel();
 
         // Limpiar filas existentes
         modeloTabla.setRowCount(0);
 
-        if (clientesEncontrados != null) {
-            clientesEncontrados.forEach(row -> {
+        if (clientesEncontrados != null)
+        {
+            clientesEncontrados.forEach(row ->
+            {
                 Object[] fila = new Object[6];
                 fila[0] = row.getId();
                 fila[1] = row.getNombre() + " " + row.getApellidoPaterno() + " " + row.getApellidoMaterno();
                 fila[2] = row.getCorreo();
                 fila[3] = row.getContrasena();
                 fila[4] = "Eliminar";
-                fila[5] = "Editar"; 
+                fila[5] = "Editar";
                 modeloTabla.addRow(fila);
             });
         }
-        
-        
-    }
-    
-    
-    private void cargarClientesEnTablaActualizada(String nombreFiltro, java.sql.Date fechaInicio, java.sql.Date fechaFin) {
-    try {
-        int indiceInicio = (pagina - 1) * LIMITE;
-        List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientes(nombreFiltro, fechaInicio, fechaFin);
-        int indiceFin = Math.min(indiceInicio + LIMITE, todosLosClientes.size());
 
-        List<ClienteDTO> clientesPagina = obtenerClientesPaginaActualizado(indiceInicio, indiceFin, nombreFiltro,fechaInicio, fechaFin);
-
-        cargarClientesEnTabla(clientesPagina);
-
-        actualizarNumeroDePagina();
-    } catch (cinepolisException ex) {
-        ex.printStackTrace();
     }
+
+    private void cargarClientesEnTablaActualizada(String nombreFiltro, java.sql.Date fechaInicio, java.sql.Date fechaFin, String ciudadFiltro) {
+        try
+        {
+            int indiceInicio = (pagina - 1) * LIMITE;
+            List<ClienteDTO> todosLosClientes = clienteNegocio.buscarClientes(nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
+            int indiceFin = Math.min(indiceInicio + LIMITE, todosLosClientes.size());
+
+            List<ClienteDTO> clientesPagina = obtenerClientesPaginaActualizado(indiceInicio, indiceFin, nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
+
+            cargarClientesEnTabla(clientesPagina);
+
+            actualizarNumeroDePagina();
+        } catch (cinepolisException ex)
+        {
+            ex.printStackTrace();
+        }
     }
-    
+
     private void actualizarNumeroDePagina() {
-    NumeroDePagina.setText(""+pagina);
+        NumeroDePagina.setText("" + pagina);
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -591,29 +650,36 @@ public class CatalogoClientes extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(CatalogoClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(CatalogoClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(CatalogoClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(CatalogoClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-         /* Create and display the form */
+        /* Create and display the form */
         ConexionBD conexion = new ConexionBD();
-        ClienteDAO clienteDAO= new ClienteDAO (conexion);
-        ClienteNegocio clienteNegocio=new ClienteNegocio(clienteDAO);
-        
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
+        ClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CatalogoClientes(clienteNegocio).setVisible(true);
@@ -623,6 +689,7 @@ public class CatalogoClientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CambiarLimite;
+    private javax.swing.JLabel LblCiudad;
     private javax.swing.JTextField NumeroDePagina;
     private javax.swing.JButton botonRestaurar;
     private javax.swing.JButton btnAtras;
@@ -641,6 +708,7 @@ public class CatalogoClientes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblClientes;
+    private javax.swing.JTextField textoFiltroCiudad;
     private javax.swing.JTextField textoFiltroNombre;
     // End of variables declaration//GEN-END:variables
 }

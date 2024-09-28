@@ -11,7 +11,7 @@ import java.util.Date;
  * @author rramirez
  */
 public class ClienteDTO {
-    
+
     private Long id;
     private String nombre;
     private String apellidoPaterno;
@@ -20,13 +20,13 @@ public class ClienteDTO {
     private String contrasena;
     private String ubicacion;
     private Date fechaNacimiento;
-    
-    //Constructor vacio 
+    private CiudadDTO ciudad;
 
+    //Constructor vacio 
     public ClienteDTO() {
     }
 
-    public ClienteDTO(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento) {
+    public ClienteDTO(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, CiudadDTO ciudad) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -35,6 +35,18 @@ public class ClienteDTO {
         this.contrasena = contrasena;
         this.ubicacion = ubicacion;
         this.fechaNacimiento = fechaNacimiento;
+        this.ciudad = ciudad;
+    }
+
+    public ClienteDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, CiudadDTO ciudad) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.ubicacion = ubicacion;
+        this.fechaNacimiento = fechaNacimiento;
+        this.ciudad = ciudad;
     }
 
     public Long getId() {
@@ -100,7 +112,18 @@ public class ClienteDTO {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
-    
-    
+
+    public CiudadDTO getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(CiudadDTO ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    @Override
+    public String toString() {
+        return "ClienteDTO{" + "id=" + id + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correo=" + correo + ", contrasena=" + contrasena + ", ubicacion=" + ubicacion + ", fechaNacimiento=" + fechaNacimiento + ", ciudad=" + ciudad + '}';
+    }
+
 }

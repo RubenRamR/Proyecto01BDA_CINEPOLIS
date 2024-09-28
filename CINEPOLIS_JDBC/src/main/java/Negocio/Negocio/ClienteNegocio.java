@@ -5,6 +5,7 @@
 package Negocio.Negocio;
 
 import Negocio.DTOs.BoletoDTO;
+import Negocio.DTOs.CiudadDTO;
 import Negocio.DTOs.ClasificacionDTO;
 import Negocio.DTOs.ClienteDTO;
 import Negocio.DTOs.FuncionDTO;
@@ -21,6 +22,7 @@ import Persistencia.DAOs.PeliculaDAO;
 import Persistencia.DAOs.ReporteDAO;
 import Persistencia.DAOs.SucursalesDAO;
 import Persistencia.Entidades.Boleto;
+import Persistencia.Entidades.Ciudad;
 import Persistencia.Entidades.Clasificacion;
 import Persistencia.Entidades.Cliente;
 import Persistencia.Entidades.Funcion;
@@ -88,14 +90,17 @@ public class ClienteNegocio implements IClienteNegocio {
     @Override
     public ClienteDTO registro(ClienteDTO cliente) {
         Cliente clienteAuxiliar = null;
-        try {
+        try
+        {
             clienteAuxiliar = convertirAEntidad(cliente);
 
             return convertirAEntidad(clienteDAO.insertarCliente(clienteAuxiliar));
 
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(ClienteNegocio.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             Logger.getLogger(ClienteNegocio.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -106,14 +111,17 @@ public class ClienteNegocio implements IClienteNegocio {
     public ClienteDTO login(ClienteDTO cliente) {
 
         Cliente clienteAuxiliar = null;
-        try {
+        try
+        {
             clienteAuxiliar = convertirAEntidadSinId(cliente);
 
             return convertirAEntidad(clienteDAO.login(clienteAuxiliar));
 
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(ClienteNegocio.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             Logger.getLogger(ClienteNegocio.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -122,7 +130,6 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     public Cliente convertirAEntidad(ClienteDTO cliente) throws SQLException {
-
         Long id = cliente.getId();
         String nombre = cliente.getNombre();
         String paterno = cliente.getApellidoPaterno();
@@ -132,11 +139,20 @@ public class ClienteNegocio implements IClienteNegocio {
         String ubicacion = cliente.getUbicacion();
         Date fechaN = cliente.getFechaNacimiento();
 
-        return new Cliente(id, nombre, paterno, materno, correo, contrasena, ubicacion, fechaN);
+        Ciudad ciudad = convertirCiudadAEntidad(cliente.getCiudad());
+
+        return new Cliente(id, nombre, paterno, materno, correo, contrasena, ubicacion, fechaN, ciudad);
+    }
+
+    public Ciudad convertirCiudadAEntidad(CiudadDTO ciudadDTO) {
+        Long id = ciudadDTO.getId();
+        String nombre = ciudadDTO.getNombre();
+        String localizacion = ciudadDTO.getLocalizacion();
+
+        return new Ciudad(id, nombre, localizacion);
     }
 
     public Cliente convertirAEntidadSinId(ClienteDTO cliente) throws SQLException {
-
         String nombre = cliente.getNombre();
         String paterno = cliente.getApellidoPaterno();
         String materno = cliente.getApellidoMaterno();
@@ -145,7 +161,9 @@ public class ClienteNegocio implements IClienteNegocio {
         String ubicacion = cliente.getUbicacion();
         Date fechaN = cliente.getFechaNacimiento();
 
-        return new Cliente(nombre, paterno, materno, correo, contrasena, ubicacion, fechaN);
+        Ciudad ciudad = convertirCiudadAEntidad(cliente.getCiudad());
+
+        return new Cliente(nombre, paterno, materno, correo, contrasena, ubicacion, fechaN, ciudad);
     }
 
     public Pelicula convertirAEntidad(PeliculaDTO peliculaDTO) throws SQLException, cinepolisException {
@@ -175,9 +193,16 @@ public class ClienteNegocio implements IClienteNegocio {
         return new Pelicula((int) id, titulo, sinopsis, trailer, duracion, pais, idGenero, idClasificacion);
     }
 
+    public CiudadDTO convertirCiudadADTO(Ciudad ciudad) {
+        Long id = ciudad.getId();
+        String nombre = ciudad.getNombre();
+        String localizacion = ciudad.getLocalizacion();
+
+        return new CiudadDTO(id, nombre, localizacion);
+    }
+
     @Override
     public ClienteDTO convertirAEntidad(Cliente cliente) throws SQLException {
-
         Long id = cliente.getId();
         String nombre = cliente.getNombre();
         String paterno = cliente.getApellidoPaterno();
@@ -187,7 +212,10 @@ public class ClienteNegocio implements IClienteNegocio {
         String ubicacion = cliente.getUbicacion();
         Date fechaN = cliente.getFechaNacimiento();
 
-        return new ClienteDTO(id, nombre, paterno, materno, correo, contrasena, ubicacion, fechaN);
+        Ciudad ciudad = cliente.getCiudad();
+        CiudadDTO ciudadDTO = convertirCiudadADTO(ciudad);
+
+        return new ClienteDTO(id, nombre, paterno, materno, correo, contrasena, ubicacion, fechaN, ciudadDTO);
     }
 
     @Override
@@ -200,17 +228,21 @@ public class ClienteNegocio implements IClienteNegocio {
         peliculaDTO.setDuracion(pelicula.getDuracion());
         peliculaDTO.setPais(pelicula.getPais());
 
-        try {
+        try
+        {
             String genero = obtenerTipoGeneroPorID(pelicula.getGenero());
             peliculaDTO.setGenero(genero);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println("Error al obtener el tipo de género: " + ex.getMessage());
         }
 
-        try {
+        try
+        {
             String clasificacion = obtenerTipoClasificacionPorID(pelicula.getClasificacion());
             peliculaDTO.setClasificacion(clasificacion);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println("Error al obtener el tipo de clasificación: " + ex.getMessage());
         }
 
@@ -227,17 +259,21 @@ public class ClienteNegocio implements IClienteNegocio {
         peliculaDTO.setDuracion(pelicula.getDuracion());
         peliculaDTO.setPais(pelicula.getPais());
 
-        try {
+        try
+        {
             String genero = obtenerTipoGeneroPorID(pelicula.getGenero());
             peliculaDTO.setGenero(genero);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println("Error al obtener el tipo de género: " + ex.getMessage());
         }
 
-        try {
+        try
+        {
             String clasificacion = obtenerTipoClasificacionPorID(pelicula.getClasificacion());
             peliculaDTO.setClasificacion(clasificacion);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println("Error al obtener el tipo de clasificación: " + ex.getMessage());
         }
 
@@ -296,10 +332,12 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public List<ClienteDTO> buscarClientesTabla() throws cinepolisException {
-        try {
+        try
+        {
             List<Cliente> clientes = this.clienteDAO.buscarClientesTabla();
             return this.convertirClienteTablaDTO(clientes);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
 
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
@@ -307,12 +345,14 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     private List<ClienteDTO> convertirClienteTablaDTO(List<Cliente> clientes) throws cinepolisException {
-        if (clientes == null) {
+        if (clientes == null)
+        {
             throw new cinepolisException("No se pudieron obtener los alumnos");
         }
 
         List<ClienteDTO> clientesDTO = new ArrayList<>();
-        for (Cliente cliente : clientes) {
+        for (Cliente cliente : clientes)
+        {
             ClienteDTO dto = new ClienteDTO();
             dto.setId(cliente.getId());
             dto.setNombre(cliente.getNombre());
@@ -329,32 +369,38 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public ClienteDTO obtenerClientePorID(long id) throws cinepolisException {
-        try {
+        try
+        {
 
             ClienteDTO cliente = clienteDAO.obtenerClientePorID(id);
 
-            if (cliente == null) {
+            if (cliente == null)
+            {
                 throw new cinepolisException("No se encontró ningún cliente con el ID proporcionado.");
             }
 
             return cliente;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             throw new cinepolisException("Error al obtener el cliente por ID.", ex);
         }
     }
 
     @Override
     public List<ClienteDTO> obtenerTodosLosClientes() throws cinepolisException {
-        try {
+        try
+        {
 
             List<ClienteDTO> clientes = clienteDAO.obtenerTodosLosClientes();
 
-            if (clientes == null || clientes.isEmpty()) {
+            if (clientes == null || clientes.isEmpty())
+            {
                 throw new cinepolisException("No se encontraron clientes en la base de datos.");
             }
 
             return clientes;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
 
             throw new cinepolisException("Error al obtener todos los clientes.", ex);
         }
@@ -362,32 +408,38 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public ClienteDTO editarCliente(ClienteDTO cliente) throws cinepolisException {
-        try {
+        try
+        {
             Cliente clienteEntidad = convertirAEntidad(cliente);
 
             Cliente clienteEditado = clienteDAO.editarCliente(clienteEntidad);
 
             return convertirAEntidad(clienteEditado);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new cinepolisException("Error al editar el cliente en la base de datos.", ex);
         }
     }
 
     @Override
     public ClienteDTO eliminarCliente(long idCliente) throws cinepolisException {
-        try {
+        try
+        {
             ClienteDTO cliente = new ClienteDTO();
             cliente = convertirAEntidad(clienteDAO.eliminarClientePorID(idCliente));
             return cliente;
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new cinepolisException("Error al eliminar el cliente en la base de datos.", ex);
         }
     }
 
     public void agregarPelicula(PeliculaDTO pelicula) throws SQLException, cinepolisException {
-        try {
+        try
+        {
             peliculaDAO.insertarPelicula(convertirAEntidad(pelicula));
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
     }
@@ -407,9 +459,11 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public void agregarCliente(ClienteDTO cliente) throws SQLException, cinepolisException {
-        try {
+        try
+        {
             clienteDAO.insertarCliente(this.convertirAEntidad(cliente));
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
 
@@ -420,7 +474,8 @@ public class ClienteNegocio implements IClienteNegocio {
 
         List<ClasificacionDTO> clasificacionesDTO = new ArrayList<>();
         List<Clasificacion> clasificaciones = clasificacionDAO.obtenerTodos();
-        for (Clasificacion clasificacion : clasificaciones) {
+        for (Clasificacion clasificacion : clasificaciones)
+        {
             ClasificacionDTO clasificacionDTO = new ClasificacionDTO();
             clasificacionDTO.setId(clasificacion.getId());
             clasificacionDTO.setTipo(clasificacion.getNombre());
@@ -432,17 +487,20 @@ public class ClienteNegocio implements IClienteNegocio {
     @Override
     public List<GeneroDTO> obtenerTodosLosGeneros() {
 
-        try {
+        try
+        {
             List<GeneroDTO> generosDTO = new ArrayList<>();
             List<Genero> generos = generoDAO.obtenerTodos();
-            for (Genero genero : generos) {
+            for (Genero genero : generos)
+            {
                 GeneroDTO generoDTO = new GeneroDTO();
                 generoDTO.setId(genero.getId());
                 generoDTO.setTipo(genero.getNombre());
                 generosDTO.add(generoDTO);
             }
             return generosDTO;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
             return null;
         }
@@ -450,26 +508,31 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public PeliculaDTO obtenerPeliculaPorID(long id) throws cinepolisException {
-        try {
+        try
+        {
 
             PeliculaDTO pelicula = peliculaDAO.obtenerPeliculaPorId(id);
 
-            if (pelicula == null) {
+            if (pelicula == null)
+            {
                 throw new cinepolisException("No se encontró ningún cliente con el ID proporcionado.");
             }
 
             return pelicula;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             throw new cinepolisException("Error al obtener el cliente por ID.", ex);
         }
     }
 
     @Override
-    public PeliculaDTO eliminarPelicula(long idPelicula) throws cinepolisException  {
+    public PeliculaDTO eliminarPelicula(long idPelicula) throws cinepolisException {
         PeliculaDTO pelicula = new PeliculaDTO();
-        try {
+        try
+        {
             pelicula = convertirAEntidad(peliculaDAO.eliminarPeliculaPorID(idPelicula));
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
         }
@@ -488,16 +551,19 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public List<PeliculaDTO> obtenerTodasLasPeliculasTablaDTO() throws cinepolisException {
-        try {
+        try
+        {
 
             List<PeliculaDTO> peliculas = peliculaDAO.obtenerTodasLasPeliculas();
 
-            if (peliculas == null || peliculas.isEmpty()) {
+            if (peliculas == null || peliculas.isEmpty())
+            {
                 throw new cinepolisException("No se encontraron peliculas en la base de datos.");
             }
 
             return peliculas;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
 
             throw new cinepolisException("Error al obtener todas las peliculas.", ex);
         }
@@ -505,11 +571,13 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public List<PeliculaDTO> buscarPeliculasTabla() throws cinepolisException {
-        try {
+        try
+        {
 
             List<Pelicula> peliculas = this.peliculaDAO.buscarPeliculasTabla();
             return this.convertirPeliculaTablaDTO(peliculas);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
 
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
@@ -517,12 +585,14 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     private List<PeliculaDTO> convertirPeliculaTablaDTO(List<Pelicula> peliculas) throws cinepolisException, SQLException, SQLException {
-        if (peliculas == null) {
+        if (peliculas == null)
+        {
             throw new cinepolisException("No se pudieron obtener los alumnos");
         }
 
         List<PeliculaDTO> PeliculasDTO = new ArrayList<>();
-        for (Pelicula pelicula : peliculas) {
+        for (Pelicula pelicula : peliculas)
+        {
             PeliculaDTO peliculaDTO = new PeliculaDTO();
             peliculaDTO.setId((long) pelicula.getId());
             peliculaDTO.setTitulo(pelicula.getTitulo());
@@ -538,12 +608,14 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     private List<Pelicula> convertirPeliculaTabla(List<PeliculaDTO> peliculasDTO) throws cinepolisException {
-        if (peliculasDTO == null) {
+        if (peliculasDTO == null)
+        {
             throw new cinepolisException("No se pudieron obtener las películas");
         }
 
         List<Pelicula> peliculas = new ArrayList<>();
-        for (PeliculaDTO peliculaDTO : peliculasDTO) {
+        for (PeliculaDTO peliculaDTO : peliculasDTO)
+        {
             Pelicula pelicula = new Pelicula();
             pelicula.setId(peliculaDTO.getId().intValue());
             pelicula.setTitulo(peliculaDTO.getTitulo());
@@ -551,12 +623,14 @@ public class ClienteNegocio implements IClienteNegocio {
             pelicula.setTrailer(peliculaDTO.getTrailer());
             pelicula.setDuracion(peliculaDTO.getDuracion());
             pelicula.setPais(peliculaDTO.getPais());
-            try {
+            try
+            {
                 int idGenero = obtenerIdGenero(peliculaDTO.getGenero());
                 int idClasificacion = obtenerIdClasificacion(peliculaDTO.getClasificacion());
                 pelicula.setGenero(idGenero);
                 pelicula.setClasificacion(idClasificacion);
-            } catch (SQLException ex) {
+            } catch (SQLException ex)
+            {
                 throw new cinepolisException("Error al obtener el ID de género o clasificación.", ex);
             }
             peliculas.add(pelicula);
@@ -566,59 +640,70 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public PeliculaDTO editarPelicula(PeliculaDTO pelicula) throws cinepolisException {
-        try {
+        try
+        {
             Pelicula peliculaEntidad = convertirAEntidadEd(pelicula);
 
             Pelicula peliculaEditado = peliculaDAO.editarPelicula(peliculaEntidad);
 
             return convertirAEntidad(peliculaEditado);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new cinepolisException("Error al editar el cliente en la base de datos.", ex);
         }
     }
 
-    public List<ClienteDTO> buscarClientes(String nombreFiltro, java.sql.Date fechaInicio, java.sql.Date fechaFin) throws cinepolisException {
-        try {
-            List<Cliente> clientes = clienteDAO.buscarClientesConFiltros(nombreFiltro, fechaInicio, fechaFin);
+    public List<ClienteDTO> buscarClientes(String nombreFiltro, java.sql.Date fechaInicio, java.sql.Date fechaFin, String ciudadFiltro) throws cinepolisException {
+        try
+        {
+            List<Cliente> clientes = clienteDAO.buscarClientesConFiltros(nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
             return convertirClienteTablaDTO(clientes);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
         }
     }
 
     public List<PeliculaDTO> buscarPeliculas(String titulo, String genero, String clasificacion, String pais) throws cinepolisException, SQLException {
-        try {
+        try
+        {
             System.out.println("CinepolisBO " + genero + " " + clasificacion);
             List<PeliculaDTO> peliculas = peliculaDAO.buscarPeliculasConFiltros(titulo, genero, clasificacion, pais);
             return peliculas;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
         }
     }
 
     public FuncionDTO obtenerFuncionPorId(long id) throws cinepolisException, SQLException {
-        try {
+        try
+        {
 
             FuncionDTO funcion = convertirAEntidad(funcionDAO.buscarPorId((int) id));
 
-            if (funcion == null) {
+            if (funcion == null)
+            {
                 throw new cinepolisException("No se encontró ningún cliente con el ID proporcionado.");
             }
 
             return funcion;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             throw new cinepolisException("Error al obtener el cliente por ID.", ex);
         }
     }
 
     @Override
     public List<FuncionDTO> buscarFuncionesTabla() throws cinepolisException {
-        try {
+        try
+        {
             List<Funcion> funciones = this.funcionDAO.buscarFuncionesTabla();
             return this.convertirFuncionTablaDTO(funciones);
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
 
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
@@ -626,14 +711,17 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     private List<FuncionDTO> convertirFuncionTablaDTO(List<Funcion> funciones) throws cinepolisException {
-        if (funciones == null) {
+        if (funciones == null)
+        {
             throw new cinepolisException("No se pudieron obtener los alumnos");
         }
 
         List<FuncionDTO> funcionesDTO = new ArrayList<>();
-        for (Funcion funcion : funciones) {
+        for (Funcion funcion : funciones)
+        {
 
-            try {
+            try
+            {
                 FuncionDTO funcionDTO = new FuncionDTO();
                 funcionDTO.setId((long) funcion.getId());
                 funcionDTO.setHoraInicio(funcion.getHoraInicio());
@@ -641,7 +729,8 @@ public class ClienteNegocio implements IClienteNegocio {
                 funcionDTO.setPeliculaDTO(convertirAEntidad(funcion.getPeliculas()));
 
                 funcionesDTO.add(funcionDTO);
-            } catch (SQLException ex) {
+            } catch (SQLException ex)
+            {
                 System.out.println(ex.getMessage());
             }
         }
@@ -649,18 +738,21 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     public PeliculaDTO buscarPeliculaPorTitulo(String titulo) throws cinepolisException, SQLException {
-        
-        try {
+
+        try
+        {
             PeliculaDTO pelicula = peliculaDAO.buscarPeliculaConTitulo(titulo);
             return pelicula;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
         }
     }
 
     public void agregarFuncion(FuncionDTO funcion) throws SQLException, cinepolisException {
-        try {
+        try
+        {
             System.out.println("AgregarFuncion en CinepolisBO: " + funcion.getPeliculaDTO().getId());
             System.out.println("AgregarFuncion en CinepolisBO: " + funcion.getFecha());
             System.out.println("AgregarFuncion en CinepolisBO: " + this.convertirAEntidad(funcion).getPeliculas().getId());
@@ -668,29 +760,34 @@ public class ClienteNegocio implements IClienteNegocio {
             funcionDAO.insertarFuncion(this.convertirAEntidad(funcion));
 
             System.out.println("cinepolisBO" + convertirAEntidad(funcion).getPeliculas().getId() + " " + funcion.getFecha());
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
     }
 
     public FuncionDTO editarFuncion(FuncionDTO funcion) throws cinepolisException {
-        try {
+        try
+        {
             Funcion FuncionEntidad = convertirAEntidadED(funcion);
 
             Funcion FuncionEditado = funcionDAO.editarFuncion(FuncionEntidad);
 
             return convertirAEntidad(FuncionEntidad);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new cinepolisException("Error al editar el cliente en la base de datos.", ex);
         }
     }
 
     public FuncionDTO eliminarFuncion(long idFuncion) throws cinepolisException, SQLException {
         FuncionDTO funcion = new FuncionDTO();
-        try {
+        try
+        {
             funcion = convertirAEntidad(funcionDAO.eliminarFuncionPorId((int) idFuncion));
             return funcion;
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
             throw new cinepolisException(ex.getMessage());
         }
@@ -717,9 +814,11 @@ public class ClienteNegocio implements IClienteNegocio {
         List<SucursalDTO> sucursales = new ArrayList<>();
         List<String> nombresSucursales = obtenerNombresSucursales();
 
-        for (String nombre : nombresSucursales) {
+        for (String nombre : nombresSucursales)
+        {
             List<Point2D.Double> coordenadas = obtenerCoordenadasSucursalesConNombreSucursal(nombre);
-            if (coordenadas != null && !coordenadas.isEmpty()) {
+            if (coordenadas != null && !coordenadas.isEmpty())
+            {
                 // Aquí puedes asumir que las coordenadas están asociadas al primer resultado
                 sucursales.add(new SucursalDTO(nombre, coordenadas.get(0)));
             }
@@ -741,19 +840,23 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     public List<SucursalDTO> obtenerSucursales() {
-        try {
+        try
+        {
             return sucursalesDAO.obtenerSucursales();
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
     public List<String> obtenerTitulosPeliculasPorGeneroYSucursal(String generoSeleccionado, String sucursalSeleccionada) {
-        try {
+        try
+        {
             // Utiliza el DAO para obtener los títulos de películas
             return peliculaDAO.obtenerTitulosPorGeneroYSucursal(generoSeleccionado, sucursalSeleccionada);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
         return null;
@@ -764,7 +867,8 @@ public class ClienteNegocio implements IClienteNegocio {
 
         List<Pelicula> peliculasAux = peliculaDAO.PeliculasPOrSucursal(nombreSucursal);
 
-        for (Pelicula pelicula : peliculasAux) {
+        for (Pelicula pelicula : peliculasAux)
+        {
             peliculas.add(convertirAEntidad(pelicula));
         }
         return peliculas;
@@ -775,7 +879,8 @@ public class ClienteNegocio implements IClienteNegocio {
 
         List<Pelicula> peliculasAux = peliculaDAO.TodasLasPeliculas();
 
-        for (Pelicula pelicula : peliculasAux) {
+        for (Pelicula pelicula : peliculasAux)
+        {
             peliculas.add(convertirAEntidad(pelicula));
         }
         return peliculas;
@@ -786,9 +891,11 @@ public class ClienteNegocio implements IClienteNegocio {
         SucursalDTO sucursalMasCercana = null;
         double menorDistancia = Double.MAX_VALUE;
 
-        for (SucursalDTO sucursal : sucursales) {
+        for (SucursalDTO sucursal : sucursales)
+        {
             double distancia = calcularDistancia(ubicacionUsuario, sucursal.getCoordenadas());
-            if (distancia < menorDistancia) {
+            if (distancia < menorDistancia)
+            {
                 menorDistancia = distancia;
                 sucursalMasCercana = new SucursalDTO(sucursal.getCoordenadas(), sucursal.getNombre());
             }
@@ -804,21 +911,25 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     public List<PeliculaDTO> obtenerDatosPeliculasPorGeneroYSucursal(String generoSeleccionado, String sucursalSeleccionada) {
-        try {
+        try
+        {
             List<PeliculaDTO> p;
             p = peliculaDAO.obtenerDatosPorGeneroYSucursal(generoSeleccionado, sucursalSeleccionada);
 
             return p;
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
     public void insertarBoleto(BoletoDTO boleto) {
-        try {
+        try
+        {
             boletoDAO.insertarBoletoComprado(convertirBoletoDTOADAO(boleto));
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
         }
     }
@@ -837,12 +948,15 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     public FuncionDTO obtenerIdFuncionPorSucursalYPelicula(String sucursal, Long id) {
-        try {
+        try
+        {
             FuncionDTO f = this.obtenerFuncionPorId(funcionDAO.obtenerIdFuncionPorSucursalYPelicula(sucursal, id).getId());
             return f;
-        } catch (cinepolisException ex) {
+        } catch (cinepolisException ex)
+        {
             System.out.println(ex.getMessage());
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
         return null;

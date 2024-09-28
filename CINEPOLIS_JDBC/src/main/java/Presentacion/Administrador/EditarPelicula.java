@@ -4,16 +4,24 @@
  */
 package Presentacion.Administrador;
 
+import Negocio.DTOs.PeliculaDTO;
+import Negocio.Negocio.ClienteNegocio;
+import excepciones.cinepolisException;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author user
+ * @author stae
  */
 public class EditarPelicula extends javax.swing.JFrame {
 
+    ClienteNegocio clienteNegocio;
+    long idPelicula;
+    
     /**
      * Creates new form EditarPelicula
      */
-    public EditarPelicula() {
+    public EditarPelicula(ClienteNegocio clienteNegocio,long idPelicula) {
         initComponents();
     }
 
@@ -26,57 +34,250 @@ public class EditarPelicula extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnRegresar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        btnPortada = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        textoTitulo = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        textoSinopsis = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        textoDuracion = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        textoPais = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        textoTrailer = new javax.swing.JTextField();
+        btnEditarPelicula = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(12, 33, 63));
+
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegresar.setText("←");
+        btnRegresar.setContentAreaFilled(false);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(505, 505, 505))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 40));
+
+        jLabel1.setFont(new java.awt.Font("Shree Devanagari 714", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Editar Pelicula");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, -1, -1));
+
+        btnPortada.setBackground(new java.awt.Color(0, 153, 255));
+        btnPortada.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
+        btnPortada.setForeground(new java.awt.Color(255, 255, 255));
+        btnPortada.setText("Agregar Portada");
+        jPanel1.add(btnPortada, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 360, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Titulo:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, -1, -1));
+
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 160, -1, 30));
+        jPanel1.add(textoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 240, 30));
+
+        jLabel3.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Genero:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Sinopsis: ");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, -1, -1));
+
+        textoSinopsis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textoSinopsisActionPerformed(evt);
+            }
+        });
+        jPanel1.add(textoSinopsis, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 250, 240, 80));
+
+        jLabel5.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Clasificacion:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 220, -1, -1));
+
+        jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 250, 110, 30));
+
+        jLabel6.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Duracion:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 290, -1, -1));
+        jPanel1.add(textoDuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 320, 110, 30));
+
+        jLabel7.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Pais:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, -1, -1));
+        jPanel1.add(textoPais, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 380, 150, 30));
+
+        jLabel8.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Link Trailer:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 400, -1, -1));
+        jPanel1.add(textoTrailer, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 290, 30));
+
+        btnEditarPelicula.setBackground(new java.awt.Color(0, 153, 255));
+        btnEditarPelicula.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
+        btnEditarPelicula.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarPelicula.setText("Editar Pelicula");
+        btnEditarPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarPeliculaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 490, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here:
+        CatalogoPeliculas  catalogoPeliculas = new  CatalogoPeliculas(clienteNegocio);
+        catalogoPeliculas.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditarPelicula().setVisible(true);
-            }
-        });
-    }
+    private void textoSinopsisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoSinopsisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textoSinopsisActionPerformed
+
+    private void btnEditarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPeliculaActionPerformed
+        try {
+            String titulo = textoTitulo.getText();
+            String sinopsis = textoSinopsis.getText();
+            String genero = (String) jComboBox1.getSelectedItem();
+            String clasificacion = (String) jComboBox2.getSelectedItem();
+            String duracionStr = textoDuracion.getText();
+            double duracion = Double.parseDouble(duracionStr);
+            String pais = textoPais.getText();
+            String trailer = textoTrailer.getText();
+
+            PeliculaDTO pelicula = new PeliculaDTO();
+            pelicula.setId(idPelicula);
+            pelicula.setTitulo(titulo);
+            pelicula.setSinopsis(sinopsis);
+            pelicula.setGenero(genero);
+            pelicula.setClasificacion(clasificacion);
+            pelicula.setDuracion(duracion);
+            pelicula.setPais(pais);
+            pelicula.setTrailer(trailer);
+
+            System.out.println("Ejecutando SQL con ID: " + idPelicula);
+
+            clienteNegocio.editarPelicula( pelicula);
+            JOptionPane.showMessageDialog(this, "La película se ha editado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+            CatalogoPeliculas catalogoPeliculas = new CatalogoPeliculas(clienteNegocio);
+            catalogoPeliculas.setVisible(true);
+        } catch (cinepolisException ex) {
+            JOptionPane.showMessageDialog(this, "Error al editar la película: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnEditarPeliculaActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(EditarPelicula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new EditarPelicula().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditarPelicula;
+    private javax.swing.JButton btnPortada;
+    private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField textoDuracion;
+    private javax.swing.JTextField textoPais;
+    private javax.swing.JTextField textoSinopsis;
+    private javax.swing.JTextField textoTitulo;
+    private javax.swing.JTextField textoTrailer;
     // End of variables declaration//GEN-END:variables
 }

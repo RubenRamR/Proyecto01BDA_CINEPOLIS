@@ -359,16 +359,16 @@ public class CompraBoletos extends javax.swing.JFrame {
 
     private void MenuCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCarteleraActionPerformed
         // TODO add your handling code here:
-        SucursalesCartelera sc = new SucursalesCartelera();
-        sc.setVisible(true);
+//        SucursalesCartelera sc = new SucursalesCartelera();
+//        sc.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_MenuCarteleraActionPerformed
 
     private void MenuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCerrarSesionActionPerformed
         // TODO add your handling code here:
-        InicioSesion i = new InicioSesion();
-        i.setVisible(true);
-        this.dispose();
+//        InicioSesion i = new InicioSesion();
+//        i.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_MenuCerrarSesionActionPerformed
 
     private void MenuResumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuResumenActionPerformed

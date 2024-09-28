@@ -49,50 +49,84 @@ public class ClasificacionDAO implements IClasificacionDAO {
         return false;
     }
 
+//    @Override
+//    public Clasificacion buscarPorId(long id) throws cinepolisException{
+//        Connection conexion = null;
+//        Clasificacion clasificacion = null;
+//        String query = "SELECT * FROM clasificacion WHERE idClasificacion = ?";
+//
+//        try {
+//            conexion = this.conexionBD.crearConexion();
+//            conexion.setAutoCommit(false);
+//
+//            try (PreparedStatement statement = conexion.prepareStatement(query)) {
+//                statement.setLong(1, id);
+//                ResultSet resultSet = statement.executeQuery();
+//
+//                if (resultSet.next()) {
+//                    clasificacion = new Clasificacion();
+//                    clasificacion.setId(resultSet.getLong("idClasificacion"));
+//                    clasificacion.setNombre(resultSet.getString("tipo"));
+//                }
+//            }
+//
+//            conexion.commit();
+//        } catch (SQLException e) {
+//            try {
+//                if (conexion != null) {
+//                    conexion.rollback();
+//                }
+//            } catch (SQLException ex) {
+//                System.out.println("Error al hacer rollback: " + ex.getMessage());
+//            }
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (conexion != null) {
+//                    conexion.close();
+//                }
+//            } catch (SQLException ex) {
+//                System.out.println("Error al cerrar la conexión: " + ex.getMessage());
+//            }
+//        }
+//
+//        return clasificacion;
+//    }
+
     @Override
-    public Clasificacion buscarPorId(long id) throws cinepolisException{
-        Connection conexion = null;
-        Clasificacion clasificacion = null;
-        String query = "SELECT * FROM clasificacion WHERE idClasificacion = ?";
+    public Clasificacion buscarPorId(long id) throws cinepolisException {
+    Connection conexion = null;
+    Clasificacion clasificacion = null;
+    String query = "SELECT * FROM clasificacion WHERE idClasificacion = ?";
 
-        try {
-            conexion = this.conexionBD.crearConexion();
-            conexion.setAutoCommit(false);
-
-            try (PreparedStatement statement = conexion.prepareStatement(query)) {
-                statement.setLong(1, id);
-                ResultSet resultSet = statement.executeQuery();
-
+    try {
+        conexion = conexionBD.crearConexion();
+        try (PreparedStatement statement = conexion.prepareStatement(query)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     clasificacion = new Clasificacion();
                     clasificacion.setId(resultSet.getLong("idClasificacion"));
                     clasificacion.setNombre(resultSet.getString("tipo"));
                 }
             }
-
-            conexion.commit();
-        } catch (SQLException e) {
+        }
+    } catch (SQLException e) {
+        throw new cinepolisException("Error al buscar la clasificacion por ID: " + e.getMessage());
+    } finally {
+        if (conexion != null) {
             try {
-                if (conexion != null) {
-                    conexion.rollback();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Error al hacer rollback: " + ex.getMessage());
-            }
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Error al cerrar la conexión: " + ex.getMessage());
+                conexion.close();
+            } catch (SQLException e) {
+                throw new cinepolisException("Error al cerrar la conexión: " + e.getMessage());
             }
         }
-
-        return clasificacion;
     }
 
+    return clasificacion;
+    }
+
+    
     @Override
     public List<Clasificacion> obtenerTodos() {
         Connection conexion = null;

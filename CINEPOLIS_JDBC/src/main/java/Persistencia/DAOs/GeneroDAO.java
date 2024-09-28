@@ -29,7 +29,7 @@ public class GeneroDAO implements IGeneroDAO{
 
     @Override
     public Genero buscarPorId(long id) throws cinepolisException {
-        Connection conexion = null;
+    Connection conexion = null;
     Genero genero = null;
     String query = "SELECT * FROM genero WHERE idGenero = ?";
 

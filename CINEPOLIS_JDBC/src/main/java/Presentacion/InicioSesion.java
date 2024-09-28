@@ -4,7 +4,13 @@
  */
 package Presentacion;
 
+import Negocio.DTOs.ClienteDTO;
+import Negocio.Negocio.ClienteNegocio;
+import Persistencia.DAOs.ClienteDAO;
+import Persistencia.DAOs.ConexionBD;
+import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,12 +18,18 @@ import javax.swing.JFrame;
  */
 public class InicioSesion extends javax.swing.JFrame {
 
+    
+    ClienteNegocio negocio;
     /**
      * Creates new form InicioSesion
      */
-    public InicioSesion() {
+    public InicioSesion(ClienteNegocio negocio) {
         initComponents();
         this.cargarMetodosIniciales();
+        this.setLocationRelativeTo(this);
+        this.setSize(785, 560);
+        
+       this.negocio=negocio;
     }
 
     public void cargarMetodosIniciales() {
@@ -37,198 +49,156 @@ public class InicioSesion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        LblCorreo = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        LblLogin1 = new javax.swing.JLabel();
-        TxtCorreo = new javax.swing.JTextField();
-        LblCorreo1 = new javax.swing.JLabel();
-        TxtContraseña = new javax.swing.JPasswordField();
-        BtnIniciarSesion = new javax.swing.JButton();
-        BtnRegistrarse = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        correo = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        contrasena = new javax.swing.JPasswordField();
+        btnIniciarSesion = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        btnRegistrate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        LblCorreo.setBackground(new java.awt.Color(0, 0, 0));
-        LblCorreo.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        LblCorreo.setForeground(new java.awt.Color(0, 0, 0));
-        LblCorreo.setText("Correo*");
+        jLabel2.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Correo:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, -1, 30));
+        jPanel1.add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 220, 280, 40));
 
-        jLabel2.setForeground(new java.awt.Color(81, 81, 81));
-        jLabel2.setText("! Para acceder como administrador, ingrese su dirección de correo electrónico y una contraseña especial de administrador. ");
+        jLabel3.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Contraseña:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, -1, 30));
+        jPanel1.add(contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 280, 30));
 
-        LblLogin1.setBackground(new java.awt.Color(0, 0, 0));
-        LblLogin1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        LblLogin1.setForeground(new java.awt.Color(0, 0, 0));
-        LblLogin1.setText("LOGIN");
-
-        TxtCorreo.setBackground(new java.awt.Color(255, 255, 255));
-        TxtCorreo.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        TxtCorreo.setForeground(new java.awt.Color(0, 0, 0));
-        TxtCorreo.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciarSesion.setBackground(new java.awt.Color(12, 33, 63));
+        btnIniciarSesion.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
+        btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnIniciarSesion.setText("Iniciar Sesion");
+        btnIniciarSesion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxtCorreoActionPerformed(evt);
+                btnIniciarSesionActionPerformed(evt);
             }
         });
+        jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, 140, 30));
 
-        LblCorreo1.setBackground(new java.awt.Color(0, 0, 0));
-        LblCorreo1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        LblCorreo1.setForeground(new java.awt.Color(0, 0, 0));
-        LblCorreo1.setText("Contraseña*");
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Serif", 0, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Inicio de Sesion");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, -1, 40));
 
-        TxtContraseña.setBackground(new java.awt.Color(255, 255, 255));
-        TxtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        TxtContraseña.setForeground(new java.awt.Color(0, 0, 0));
-        TxtContraseña.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("¿No tienes una cuenta aun? ");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 530, -1, 20));
+
+        btnRegistrate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegistrate.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrate.setText("Registrate");
+        btnRegistrate.setContentAreaFilled(false);
+        btnRegistrate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxtContraseñaActionPerformed(evt);
+                btnRegistrateActionPerformed(evt);
             }
         });
-
-        BtnIniciarSesion.setBackground(new java.awt.Color(0, 204, 255));
-        BtnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        BtnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        BtnIniciarSesion.setText("Iniciar Sesión");
-        BtnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnIniciarSesionActionPerformed(evt);
-            }
-        });
-
-        BtnRegistrarse.setBackground(new java.awt.Color(255, 255, 255));
-        BtnRegistrarse.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        BtnRegistrarse.setForeground(new java.awt.Color(0, 0, 153));
-        BtnRegistrarse.setText("Regístrarse");
-        BtnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnRegistrarseActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(193, 193, 193)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(LblCorreo1)
-                            .addComponent(LblCorreo)
-                            .addComponent(TxtCorreo)
-                            .addComponent(TxtContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 1085, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(573, 573, 573)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(BtnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BtnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(666, 666, 666)
-                        .addComponent(LblLogin1)))
-                .addContainerGap(135, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(LblLogin1)
-                .addGap(101, 101, 101)
-                .addComponent(LblCorreo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(168, 168, 168)
-                .addComponent(LblCorreo1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TxtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(156, 156, 156)
-                .addComponent(BtnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
-                .addComponent(jLabel2))
-        );
-
-        jPanel3.setBackground(new java.awt.Color(0, 0, 153));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\cinepolis_logo.png")); // NOI18N
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addComponent(jLabel1)
-                .addContainerGap(180, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(443, 443, 443))
-        );
+        jPanel1.add(btnRegistrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 530, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BtnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIniciarSesionActionPerformed
+    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
-        SucursalesCartelera sc = new SucursalesCartelera();
-        sc.setVisible(true);
+        ClienteDTO clienteDTO = new ClienteDTO();
+        clienteDTO.setCorreo(correo.getText());
+        clienteDTO.setContrasena(contrasena.getText());
+        ClienteDTO clienteAutenticado = negocio.login(clienteDTO);
+        if (clienteAutenticado != null) {
+            negocio.setId(clienteAutenticado.getId());
+            try {
+                Sucursales s=new Sucursales(negocio);
+                s.setVisible(true);
+                this.disable();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+        }
+
+    }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    private void btnRegistrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrateActionPerformed
+        // TODO add your handling code here:
+        Registro registro = new Registro();
+        registro.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_BtnIniciarSesionActionPerformed
+    }//GEN-LAST:event_btnRegistrateActionPerformed
 
-    private void BtnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarseActionPerformed
-        // TODO add your handling code here:
-        Registro r = new Registro();
-        r.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_BtnRegistrarseActionPerformed
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
-    private void TxtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TxtCorreoActionPerformed
+        ConexionBD c= new ConexionBD();
+        ClienteDAO d=new ClienteDAO(c);
+        ClienteNegocio b= new ClienteNegocio(d);
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new InicioSesion(b).setVisible(true);
+                
+            }
+        });
+    }
 
-    private void TxtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtContraseñaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TxtContraseñaActionPerformed
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnIniciarSesion;
-    private javax.swing.JButton BtnRegistrarse;
-    private javax.swing.JLabel LblCorreo;
-    private javax.swing.JLabel LblCorreo1;
-    private javax.swing.JLabel LblLogin1;
-    private javax.swing.JPasswordField TxtContraseña;
-    private javax.swing.JTextField TxtCorreo;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JButton btnRegistrate;
+    private javax.swing.JPasswordField contrasena;
+    private javax.swing.JTextField correo;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -281,9 +281,9 @@ public class DetalleCompra extends javax.swing.JFrame {
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         // TODO add your handling code here:
-        SucursalesCartelera sc = new SucursalesCartelera();
-        sc.setVisible(true);
-        this.dispose();
+//        SucursalesCartelera sc = new SucursalesCartelera();
+//        sc.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtrasActionPerformed

@@ -142,9 +142,9 @@ public class DlgCompraExitosa extends javax.swing.JFrame {
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
         // TODO add your handling code here:
-        SucursalesCartelera sc = new SucursalesCartelera();
-        sc.setVisible(true);
-        this.dispose();
+//        SucursalesCartelera sc = new SucursalesCartelera();
+//        sc.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_BtnSalirActionPerformed
 
     private void BtnGenerarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGenerarPDFActionPerformed

@@ -4,6 +4,10 @@
  */
 package Presentacion;
 
+import Negocio.DTOs.SucursalDTO;
+import Negocio.Negocio.ClienteNegocio;
+import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -12,10 +16,12 @@ import javax.swing.JFrame;
  */
 public class SucursalesCartelera extends javax.swing.JFrame {
 
+    ClienteNegocio cine;
+    
     /**
      * Creates new form InicioSesion
      */
-    public SucursalesCartelera() {
+    public SucursalesCartelera(ClienteNegocio cine) throws SQLException{
         initComponents();
         this.cargarMetodosIniciales();
     }
@@ -28,6 +34,17 @@ public class SucursalesCartelera extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
+    private void llenarComboBoxNombreSucursal() throws SQLException {
+        // Suponiendo que obtenerSucursales() devuelve una lista de SucursalDTO
+        List<SucursalDTO> sucursales = cine.obtenerSucursales();
+        // Limpiar ComboBox antes de agregar nuevos elementos
+        //comboBoxNombreSucursal.removeAllItems();
+        // Agregar cada nombre de sucursal al ComboBox
+        for (SucursalDTO sucursal : sucursales) {
+            //comboBoxNombreSucursal.addItem(sucursal.getNombre()); // Suponiendo que SucursalDTO tiene un método getNombre()
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,12 +82,10 @@ public class SucursalesCartelera extends javax.swing.JFrame {
 
         LblSucursales.setBackground(new java.awt.Color(0, 0, 0));
         LblSucursales.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        LblSucursales.setForeground(new java.awt.Color(0, 0, 0));
         LblSucursales.setText("Sucursales");
 
         LblCiudad.setBackground(new java.awt.Color(0, 0, 0));
         LblCiudad.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        LblCiudad.setForeground(new java.awt.Color(0, 0, 0));
         LblCiudad.setText("Ciudad");
 
         BtnBuscarSucursal.setBackground(new java.awt.Color(0, 204, 255));
@@ -83,32 +98,23 @@ public class SucursalesCartelera extends javax.swing.JFrame {
             }
         });
 
-        CmbxCiudad.setBackground(new java.awt.Color(255, 255, 255));
         CmbxCiudad.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        CmbxCiudad.setForeground(new java.awt.Color(0, 0, 0));
 
-        CmbxSucursal.setBackground(new java.awt.Color(255, 255, 255));
         CmbxSucursal.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        CmbxSucursal.setForeground(new java.awt.Color(0, 0, 0));
 
         LblCiudad1.setBackground(new java.awt.Color(0, 0, 0));
         LblCiudad1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        LblCiudad1.setForeground(new java.awt.Color(0, 0, 0));
         LblCiudad1.setText("Seleccionar");
 
         LblPagina.setBackground(new java.awt.Color(0, 0, 0));
         LblPagina.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        LblPagina.setForeground(new java.awt.Color(0, 0, 0));
         LblPagina.setText("1");
 
         LblCiudad2.setBackground(new java.awt.Color(0, 0, 0));
         LblCiudad2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        LblCiudad2.setForeground(new java.awt.Color(0, 0, 0));
         LblCiudad2.setText("Sucursal");
 
-        TblCartelera.setBackground(new java.awt.Color(255, 255, 255));
         TblCartelera.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        TblCartelera.setForeground(new java.awt.Color(0, 0, 0));
         TblCartelera.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -121,14 +127,8 @@ public class SucursalesCartelera extends javax.swing.JFrame {
 
         LblCartelera.setBackground(new java.awt.Color(0, 0, 0));
         LblCartelera.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        LblCartelera.setForeground(new java.awt.Color(0, 0, 0));
         LblCartelera.setText("Cartelera");
 
-        BtnAtrasTabla.setBackground(new java.awt.Color(255, 255, 255));
-        BtnAtrasTabla.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\BtnAtrasT.png")); // NOI18N
-
-        BtnAdelanteTabla.setBackground(new java.awt.Color(255, 255, 255));
-        BtnAdelanteTabla.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\BtnAdelanteT.png")); // NOI18N
         BtnAdelanteTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAdelanteTablaActionPerformed(evt);
@@ -207,8 +207,7 @@ public class SucursalesCartelera extends javax.swing.JFrame {
                         .addComponent(LblCiudad1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnBuscarSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(BtnBuscarSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -229,11 +228,8 @@ public class SucursalesCartelera extends javax.swing.JFrame {
 
         Panel.setBackground(new java.awt.Color(0, 0, 153));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\cinepolis_logo.png")); // NOI18N
-
         BtnAtras.setBackground(new java.awt.Color(0, 0, 153));
         BtnAtras.setForeground(new java.awt.Color(0, 0, 153));
-        BtnAtras.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\BtnAtras.png")); // NOI18N
         BtnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAtrasActionPerformed(evt);
@@ -264,8 +260,6 @@ public class SucursalesCartelera extends javax.swing.JFrame {
                 .addGap(341, 341, 341))
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
-        jMenuBar1.setForeground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         MenuOpciones.setText("Opciones");
@@ -306,9 +300,9 @@ public class SucursalesCartelera extends javax.swing.JFrame {
 
     private void BtnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtrasActionPerformed
         // TODO add your handling code here:
-        InicioSesion i = new InicioSesion();
-        i.setVisible(true);
-        this.dispose();
+//        InicioSesion i = new InicioSesion();
+//        i.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_BtnAtrasActionPerformed
 
     private void BtnAdelanteTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAdelanteTablaActionPerformed
@@ -320,8 +314,8 @@ public class SucursalesCartelera extends javax.swing.JFrame {
 
     private void MenuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCerrarSesionActionPerformed
         // TODO add your handling code here:
-        InicioSesion i = new InicioSesion();
-        i.setVisible(true);
+//        InicioSesion i = new InicioSesion();
+//        i.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_MenuCerrarSesionActionPerformed
 

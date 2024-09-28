@@ -6,7 +6,7 @@ package Presentacion.Administrador;
 
 /**
  *
- * @author user
+ * @author stae
  */
 public class SeleccionarSucursal extends javax.swing.JFrame {
 

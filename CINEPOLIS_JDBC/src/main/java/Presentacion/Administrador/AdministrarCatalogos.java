@@ -4,17 +4,26 @@
  */
 package Presentacion.Administrador;
 
+import Negocio.Negocio.ClienteNegocio;
+import Persistencia.DAOs.ClienteDAO;
+import Persistencia.DAOs.ConexionBD;
+
 /**
  *
- * @author user
+ * @author stae
  */
 public class AdministrarCatalogos extends javax.swing.JFrame {
 
+    ClienteNegocio clienteNegocio;
+    
     /**
      * Creates new form AdministrarCatalogos
      */
-    public AdministrarCatalogos() {
+    public AdministrarCatalogos(ClienteNegocio clienteNegocio) {
         initComponents();
+        this.clienteNegocio = clienteNegocio;
+         this.setLocationRelativeTo(this);
+        this.setSize(690, 560);
     }
 
     /**
@@ -26,57 +35,133 @@ public class AdministrarCatalogos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnCatalogoClientes = new javax.swing.JButton();
+        btnReporteSucursales = new javax.swing.JButton();
+        btnAdministrarFunciones = new javax.swing.JButton();
+        btnCatalogoPeliculas1 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.setForeground(new java.awt.Color(0, 0, 51));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Shree Devanagari 714", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Administrador de Catalogos");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
+
+        btnCatalogoClientes.setBackground(new java.awt.Color(0, 204, 255));
+        btnCatalogoClientes.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
+        btnCatalogoClientes.setForeground(new java.awt.Color(255, 255, 255));
+        btnCatalogoClientes.setText("Catalogo Clientes");
+        btnCatalogoClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCatalogoClientesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCatalogoClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 200, 260, 50));
+
+        btnReporteSucursales.setBackground(new java.awt.Color(0, 204, 255));
+        btnReporteSucursales.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
+        btnReporteSucursales.setForeground(new java.awt.Color(255, 255, 255));
+        btnReporteSucursales.setText("Reporte Sucursales");
+        btnReporteSucursales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteSucursalesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnReporteSucursales, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 260, 50));
+
+        btnAdministrarFunciones.setBackground(new java.awt.Color(0, 204, 255));
+        btnAdministrarFunciones.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
+        btnAdministrarFunciones.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdministrarFunciones.setText("Administrar Funciones");
+        btnAdministrarFunciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrarFuncionesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAdministrarFunciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, 260, 50));
+
+        btnCatalogoPeliculas1.setBackground(new java.awt.Color(51, 204, 255));
+        btnCatalogoPeliculas1.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
+        btnCatalogoPeliculas1.setForeground(new java.awt.Color(255, 255, 255));
+        btnCatalogoPeliculas1.setText("Catalogo Peliculas");
+        btnCatalogoPeliculas1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCatalogoPeliculas1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCatalogoPeliculas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 260, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCatalogoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoClientesActionPerformed
+
+        CatalogoClientes catalogoClientes = new CatalogoClientes(clienteNegocio);
+        catalogoClientes.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCatalogoClientesActionPerformed
+
+    private void btnReporteSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteSucursalesActionPerformed
+        // TODO add your handling code here:
+
+        ReportePorSucursal reportePorSucursal = new ReportePorSucursal();
+        reportePorSucursal.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_btnReporteSucursalesActionPerformed
+
+    private void btnAdministrarFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarFuncionesActionPerformed
+        // TODO add your handling code here:
+        AdministrarFunciones administrarFunciones = new AdministrarFunciones(clienteNegocio);
+        administrarFunciones.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAdministrarFuncionesActionPerformed
+
+    private void btnCatalogoPeliculas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoPeliculas1ActionPerformed
+        // TODO add your handling code here:
+        CatalogoPeliculas p= new CatalogoPeliculas(clienteNegocio);
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCatalogoPeliculas1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCatalogos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCatalogos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCatalogos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCatalogos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        ConexionBD conexion = new ConexionBD();
+        ClienteDAO clienteDAO= new ClienteDAO (conexion);
+        ClienteNegocio clienteNegocio=new ClienteNegocio(clienteDAO);
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdministrarCatalogos().setVisible(true);
+                new AdministrarCatalogos(clienteNegocio).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdministrarFunciones;
+    private javax.swing.JButton btnCatalogoClientes;
+    private javax.swing.JButton btnCatalogoPeliculas1;
+    private javax.swing.JButton btnReporteSucursales;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

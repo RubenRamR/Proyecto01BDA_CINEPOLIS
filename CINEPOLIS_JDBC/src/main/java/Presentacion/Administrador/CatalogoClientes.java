@@ -28,7 +28,7 @@ import utilerias.JButtonRenderer;
 public class CatalogoClientes extends javax.swing.JFrame {
 
     private int pagina=1;
-    private int LIMITE=1;
+    private int LIMITE=5;
     ClienteNegocio clienteNegocio;
     boolean conFiltro;
     
@@ -226,10 +226,10 @@ public class CatalogoClientes extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 0, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Serif", 0, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Shree Devanagari 714", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Catalogos Clientes");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, -1, -1));
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -248,7 +248,7 @@ public class CatalogoClientes extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 51));
 
-        jLabel2.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Shree Devanagari 714", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Filtro de Busqueda");
 
@@ -328,12 +328,12 @@ public class CatalogoClientes extends javax.swing.JFrame {
                         .addComponent(textoFiltroNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnBuscar))
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 770, 80));
 
-        btnNuevoCliente.setBackground(new java.awt.Color(12, 33, 63));
+        btnNuevoCliente.setBackground(new java.awt.Color(0, 153, 255));
         btnNuevoCliente.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
         btnNuevoCliente.setForeground(new java.awt.Color(255, 255, 255));
         btnNuevoCliente.setText("+Nuevo Cliente");
@@ -342,7 +342,7 @@ public class CatalogoClientes extends javax.swing.JFrame {
                 btnNuevoClienteActionPerformed(evt);
             }
         });
-        jPanel1.add(btnNuevoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
+        jPanel1.add(btnNuevoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
 
         btnAtras.setBackground(new java.awt.Color(12, 33, 63));
         btnAtras.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N

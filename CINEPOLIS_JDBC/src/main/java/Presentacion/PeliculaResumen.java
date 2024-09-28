@@ -283,23 +283,23 @@ public class PeliculaResumen extends javax.swing.JFrame {
 
     private void BtnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtrasActionPerformed
         // TODO add your handling code here:
-        SucursalesCartelera sc = new SucursalesCartelera();
-        sc.setVisible(true);
-        this.dispose();
+//        SucursalesCartelera sc = new SucursalesCartelera();
+//        sc.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_BtnAtrasActionPerformed
 
     private void MenuCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCarteleraActionPerformed
         // TODO add your handling code here:
-        SucursalesCartelera sc = new SucursalesCartelera();
-        sc.setVisible(true);
-        this.dispose();
+//        SucursalesCartelera sc = new SucursalesCartelera();
+//        sc.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_MenuCarteleraActionPerformed
 
     private void MenuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCerrarSesionActionPerformed
         // TODO add your handling code here:
-        InicioSesion i = new InicioSesion();
-        i.setVisible(true);
-        this.dispose();
+//        InicioSesion i = new InicioSesion();
+//        i.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_MenuCerrarSesionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

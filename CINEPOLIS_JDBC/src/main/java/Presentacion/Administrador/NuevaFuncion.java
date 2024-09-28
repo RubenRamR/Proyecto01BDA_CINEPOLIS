@@ -4,17 +4,47 @@
  */
 package Presentacion.Administrador;
 
+import Negocio.DTOs.FuncionDTO;
+import Negocio.DTOs.PeliculaDTO;
+import Negocio.DTOs.SucursalDTO;
+import Negocio.Negocio.ClienteNegocio;
+import Persistencia.DAOs.ClienteDAO;
+import Persistencia.DAOs.ConexionBD;
+import excepciones.cinepolisException;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author user
+ * @author stae
  */
 public class NuevaFuncion extends javax.swing.JFrame {
 
+    ClienteNegocio clienteNegocio;
+    
     /**
      * Creates new form NuevaFuncion
      */
-    public NuevaFuncion() {
+    public NuevaFuncion(ClienteNegocio clienteNegocio) {
         initComponents();
+        this.clienteNegocio = clienteNegocio;
+        this.setLocationRelativeTo(this);
+        this.setSize(800, 580);
+        try {
+            List<PeliculaDTO> peliculas = clienteNegocio.buscarPeliculasTabla();
+            for (PeliculaDTO pelicula : peliculas) {
+                comboBoxPelicula.addItem(pelicula.getTitulo());
+            }
+            List<SucursalDTO> sucursales = clienteNegocio.obtenerSucursales();
+            for (SucursalDTO sucursal : sucursales) {
+                comboBoxSucursal.addItem(sucursal.getNombre());
+            }
+
+        } catch (cinepolisException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -26,21 +56,218 @@ public class NuevaFuncion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnRegresar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        textoHoraInicio = new javax.swing.JTextField();
+        btnAgregarFuncion = new javax.swing.JButton();
+        comboBoxPelicula = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        comboBoxSucursal = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        comboBoxSala = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(12, 33, 63));
+
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegresar.setText("←");
+        btnRegresar.setContentAreaFilled(false);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btnRegresar)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, -1));
+
+        jLabel1.setFont(new java.awt.Font("Shree Devanagari 714", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Nueva Función");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 170, 40));
+
+        jLabel2.setFont(new java.awt.Font("Shree Devanagari 714", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Fecha:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, -1, -1));
+        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 250, 30));
+
+        jLabel3.setFont(new java.awt.Font("Shree Devanagari 714", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Hora Inicio:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, -1, 20));
+        jPanel1.add(textoHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, 250, 30));
+
+        btnAgregarFuncion.setBackground(new java.awt.Color(12, 33, 63));
+        btnAgregarFuncion.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
+        btnAgregarFuncion.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarFuncion.setText("Agregar Funcion");
+        btnAgregarFuncion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarFuncionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAgregarFuncion, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, -1, 30));
+
+        comboBoxPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxPeliculaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(comboBoxPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, 250, 40));
+
+        jLabel5.setFont(new java.awt.Font("Shree Devanagari 714", 0, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Sala:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 360, -1, -1));
+
+        comboBoxSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSucursalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(comboBoxSucursal, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 390, 250, 40));
+
+        jLabel6.setFont(new java.awt.Font("Shree Devanagari 714", 0, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Pelicula:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, -1, -1));
+
+        comboBoxSala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSalaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(comboBoxSala, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 390, 250, 40));
+
+        jLabel7.setFont(new java.awt.Font("Shree Devanagari 714", 0, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Sucursal:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 360, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here:
+        AdministrarFunciones administrarFunciones = new AdministrarFunciones(clienteNegocio);
+        administrarFunciones.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnAgregarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFuncionActionPerformed
+        try {
+            Date fecha = jDateChooser1.getDate();
+            String horaInicioStr = textoHoraInicio.getText();
+            String peliculaSeleccionada = (String) comboBoxPelicula.getSelectedItem();
+            String sucursalSeleccionada = (String) comboBoxSucursal.getSelectedItem();
+
+            if (fecha == null || horaInicioStr.isEmpty() || peliculaSeleccionada.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            double horaInicio;
+            try {
+                String[] partesHora = horaInicioStr.split(":");
+                int horas = Integer.parseInt(partesHora[0]);
+                int minutos = Integer.parseInt(partesHora[1]);
+
+                horaInicio = horas + minutos / 60.0;
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                JOptionPane.showMessageDialog(this, "Formato de hora incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            System.out.println(fecha + " " + horaInicioStr + " " + peliculaSeleccionada);
+
+            // Obtener datos de la UI y crear un objeto Funcion
+            FuncionDTO nuevaFuncion = new FuncionDTO();
+            nuevaFuncion.setFecha(fecha);
+            nuevaFuncion.setHoraInicio(horaInicio);
+
+            PeliculaDTO pelicula = clienteNegocio.buscarPeliculaPorTitulo(peliculaSeleccionada);
+
+            if (pelicula == null) {
+                JOptionPane.showMessageDialog(this, "La película seleccionada no existe", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            nuevaFuncion.setPeliculaDTO(pelicula);
+
+            List<SucursalDTO> sucursales = clienteNegocio.obtenerSucursales();
+            for (int i = 0; i < sucursales.size(); i++) {
+
+                if (sucursalSeleccionada.equals(sucursales.get(i).getNombre())) {
+                    nuevaFuncion.setSucursalDTO(sucursales.get(i));
+                }
+
+            }
+
+            try {
+                System.out.println(pelicula.getId());
+                clienteNegocio.agregarFuncion(nuevaFuncion);
+                JOptionPane.showMessageDialog(this, "Función agregada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                jDateChooser1.setDate(null);
+                textoHoraInicio.setText("");
+                comboBoxPelicula.setSelectedIndex(0);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al agregar función: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } catch (cinepolisException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnAgregarFuncionActionPerformed
+
+    private void comboBoxPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPeliculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxPeliculaActionPerformed
+
+    private void comboBoxSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSucursalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxSucursalActionPerformed
+
+    private void comboBoxSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSalaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxSalaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,13 +297,33 @@ public class NuevaFuncion extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        ConexionBD conexion = new ConexionBD();
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
+        ClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new NuevaFuncion().setVisible(true);
+                new NuevaFuncion(clienteNegocio).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarFuncion;
+    private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> comboBoxPelicula;
+    private javax.swing.JComboBox<String> comboBoxSala;
+    private javax.swing.JComboBox<String> comboBoxSucursal;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField textoHoraInicio;
     // End of variables declaration//GEN-END:variables
 }

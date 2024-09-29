@@ -4,6 +4,7 @@
  */
 package Presentacion.Administrador;
 
+import Negocio.DTOs.CiudadDTO;
 import Negocio.DTOs.ClienteDTO;
 import Negocio.Negocio.ClienteNegocio;
 import excepciones.cinepolisException;
@@ -38,6 +39,10 @@ public class EditarCliente extends javax.swing.JFrame {
             Calendar fecha = Calendar.getInstance();
             fecha.setTime(cliente.getFechaNacimiento());
             jDateChooser1.setCalendar(fecha);
+            
+            CiudadDTO ciudad = clienteNegocio.obtenerCiudadPorClienteId(idCliente);
+            txtCiudad.setText(ciudad.getNombre());
+            
             txtContrasena.setText(cliente.getContrasena());
         } catch (cinepolisException ex)
         {
@@ -71,6 +76,8 @@ public class EditarCliente extends javax.swing.JFrame {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         botonEditar = new javax.swing.JButton();
         mostrarContraseña = new javax.swing.JCheckBox();
+        txtCiudad = new javax.swing.JTextField();
+        lblCorreo1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,32 +133,32 @@ public class EditarCliente extends javax.swing.JFrame {
         lblCorreo.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
         lblCorreo.setForeground(new java.awt.Color(255, 255, 255));
         lblCorreo.setText("Correo:");
-        jPanel1.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, -1, -1));
+        jPanel1.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, -1, -1));
 
         txtCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCorreoActionPerformed(evt);
             }
         });
-        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 250, 270, 30));
+        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 270, 30));
 
         lblContraseña.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         lblContraseña.setForeground(new java.awt.Color(255, 255, 255));
         lblContraseña.setText("Contraseña:");
-        jPanel1.add(lblContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 390, -1, -1));
+        jPanel1.add(lblContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 400, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Fecha de nacimiento:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, -1, -1));
 
         txtContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtContrasenaActionPerformed(evt);
             }
         });
-        jPanel1.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, 270, 30));
-        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, 270, 30));
+        jPanel1.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 430, 270, 30));
+        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 270, 30));
 
         botonEditar.setBackground(new java.awt.Color(12, 33, 63));
         botonEditar.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
@@ -169,7 +176,19 @@ public class EditarCliente extends javax.swing.JFrame {
                 mostrarContraseñaActionPerformed(evt);
             }
         });
-        jPanel1.add(mostrarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 420, 30, 30));
+        jPanel1.add(mostrarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 430, 30, 30));
+
+        txtCiudad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCiudadActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 270, 30));
+
+        lblCorreo1.setFont(new java.awt.Font("Shree Devanagari 714", 0, 18)); // NOI18N
+        lblCorreo1.setForeground(new java.awt.Color(255, 255, 255));
+        lblCorreo1.setText("Ciudad:");
+        jPanel1.add(lblCorreo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -198,41 +217,47 @@ public class EditarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtContrasenaActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-        try
-        {
-            String nombreCompleto = txtNombre.getText();
-            String correo = txtCorreo.getText();
-            String contrasena = new String(txtContrasena.getPassword());
-            Calendar fechaNacimiento = jDateChooser1.getCalendar();
+         try {
+        String nombreCompleto = txtNombre.getText();
+        String correo = txtCorreo.getText();
+        String contrasena = new String(txtContrasena.getPassword());
+        Calendar fechaNacimiento = jDateChooser1.getCalendar();
+        
+        String[] partesNombre = nombreCompleto.split(" ");
+        String nombre = partesNombre[0];
+        String apellidoPaterno = partesNombre[1];
+        String apellidoMaterno = partesNombre.length > 2 ? partesNombre[2] : ""; // Maneja nombres con 2 o más partes
 
-            String[] partesNombre = nombreCompleto.split(" ");
-            String nombre = partesNombre[0];
-            String apellidoPaterno = partesNombre[1];
-            String apellidoMaterno = partesNombre[2];
+        // Obtener ciudad (ejemplo de cómo podrías obtenerla)
+       
+        CiudadDTO ciudad = clienteNegocio.obtenerCiudadPorClienteId(idCliente);
+       
+        ciudad.setId(ciudad.getId()); // Asigna el ID de la ciudad
+        // También podrías querer asignar el nombre y la localización de la ciudad si es necesario
 
-            ClienteDTO clienteEditado = new ClienteDTO();
-            clienteEditado.setId(idCliente);
-            clienteEditado.setNombre(nombre);
-            clienteEditado.setApellidoPaterno(apellidoPaterno);
-            clienteEditado.setApellidoMaterno(apellidoMaterno);
-            clienteEditado.setCorreo(correo);
-            clienteEditado.setContrasena(contrasena);
-            clienteEditado.setFechaNacimiento(fechaNacimiento.getTime());
-            clienteEditado.setUbicacion(clienteNegocio.obtenerClientePorID(idCliente).getUbicacion());
+        ClienteDTO clienteEditado = new ClienteDTO();
+        clienteEditado.setId(idCliente);
+        clienteEditado.setNombre(nombre);
+        clienteEditado.setApellidoPaterno(apellidoPaterno);
+        clienteEditado.setApellidoMaterno(apellidoMaterno);
+        clienteEditado.setCorreo(correo);
+        clienteEditado.setContrasena(contrasena);
+        clienteEditado.setFechaNacimiento(fechaNacimiento.getTime());
+        clienteEditado.setUbicacion(clienteNegocio.obtenerClientePorID(idCliente).getUbicacion());
+        clienteEditado.setCiudad(ciudad); // Establecer la ciudad
 
-            clienteNegocio.editarCliente(clienteEditado);
+        clienteNegocio.editarCliente(clienteEditado);
 
-            JOptionPane.showMessageDialog(this, "Cliente editado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Cliente editado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-            this.dispose();
-            CatalogoClientes catalogoClientes = new CatalogoClientes(clienteNegocio);
-            catalogoClientes.setVisible(true);
+        this.dispose();
+        CatalogoClientes catalogoClientes = new CatalogoClientes(clienteNegocio);
+        catalogoClientes.setVisible(true);
 
-        } catch (cinepolisException ex)
-        {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al editar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    } catch (cinepolisException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al editar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void mostrarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarContraseñaActionPerformed
@@ -257,6 +282,10 @@ public class EditarCliente extends javax.swing.JFrame {
         catologoClientes.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void txtCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCiudadActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -304,7 +333,9 @@ public class EditarCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblContraseña;
     private javax.swing.JLabel lblCorreo;
+    private javax.swing.JLabel lblCorreo1;
     private javax.swing.JCheckBox mostrarContraseña;
+    private javax.swing.JTextField txtCiudad;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombre;

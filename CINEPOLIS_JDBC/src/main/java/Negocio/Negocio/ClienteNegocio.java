@@ -86,13 +86,22 @@ public class ClienteNegocio implements IClienteNegocio {
     public void obtenerIdClienteLogiado() throws cinepolisException {
         this.obtenerClientePorID(id);
     }
-
+    
+public CiudadDTO obtenerCiudadPorNombre(String nombre) {
+    ClienteDAO clienteCiudad = new ClienteDAO();
+    try {
+        return clienteCiudad.obtenerCiudadPorNombre(nombre);
+    } catch (SQLException e) {
+        System.out.println("Error al obtener la ciudad: " + e.getMessage());
+        return null;
+    }
+}
     @Override
     public ClienteDTO registro(ClienteDTO cliente) {
 //        Cliente clienteAuxiliar = null;
         try
         {
-           Cliente clienteAuxiliar = convertirAEntidad(cliente);
+            Cliente clienteAuxiliar = convertirAEntidad(cliente);
 
             return convertirAEntidad(clienteDAO.insertarCliente(clienteAuxiliar));
 
@@ -130,7 +139,11 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     public Cliente convertirAEntidad(ClienteDTO cliente) throws SQLException {
-        Long id = cliente.getId();
+        if (cliente == null)
+        {
+            throw new SQLException("El ClienteDTO no puede ser nulo");
+        }
+
         String nombre = cliente.getNombre();
         String paterno = cliente.getApellidoPaterno();
         String materno = cliente.getApellidoMaterno();
@@ -141,7 +154,7 @@ public class ClienteNegocio implements IClienteNegocio {
 
         Ciudad ciudad = convertirCiudadAEntidad(cliente.getCiudad());
 
-        return new Cliente(id, nombre, paterno, materno, correo, contrasena, ubicacion, fechaN, ciudad);
+        return new Cliente(nombre, paterno, materno, correo, contrasena, ubicacion, fechaN, ciudad);
     }
 
     public Ciudad convertirCiudadAEntidad(CiudadDTO ciudadDTO) {
@@ -424,6 +437,20 @@ public class ClienteNegocio implements IClienteNegocio {
         {
             throw new cinepolisException("Error al editar el cliente en la base de datos.", ex);
         }
+    }
+
+    public CiudadDTO obtenerCiudadPorClienteId(long idCliente) throws cinepolisException {
+        Ciudad ciudad = clienteDAO.obtenerCiudadPorClienteId(idCliente);
+
+        if (ciudad != null)
+        {
+            CiudadDTO ciudadDTO = new CiudadDTO();
+            ciudadDTO.setId(ciudad.getId());
+            ciudadDTO.setNombre(ciudad.getNombre());
+            ciudadDTO.setLocalizacion(ciudad.getLocalizacion());
+            return ciudadDTO;
+        }
+        return null;
     }
 
     @Override

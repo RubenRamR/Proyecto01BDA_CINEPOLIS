@@ -3,6 +3,7 @@ Presentacion\Administrador\CatalogoClientes$10.class
 Presentacion\Administrador\CatalogoClientes$4.class
 Presentacion\Administrador\NuevaFuncion.class
 Persistencia\DAOs\IClasificacionDAO.class
+Presentacion\InicioSesion$4.class
 Presentacion\Administrador\CatalogoPeliculas$14.class
 Presentacion\Administrador\CatalogoPeliculas$4.class
 Presentacion\DlgCompraExitosa.class
@@ -20,6 +21,7 @@ Negocio\DTOs\CiudadDTO.class
 Persistencia\Entidades\Genero.class
 Presentacion\Administrador\AdministrarCatalogos$1.class
 Presentacion\PeliculaResumen$4.class
+Presentacion\Administrador\EditarCliente$7.class
 Presentacion\CompraBoletos$1.class
 Presentacion\Administrador\AdministrarFunciones$7.class
 Presentacion\Administrador\ReportePorSucursal$4.class
@@ -131,6 +133,7 @@ Presentacion\Administrador\ReportePorSucursal$1.class
 Presentacion\SucursalesCartelera.class
 Presentacion\Sala$2.class
 Persistencia\Entidades\Ciudad.class
+Presentacion\Administrador\AgregarCliente$5.class
 Presentacion\Sucursales$1.class
 Presentacion\Administrador\CatalogoClientes$7.class
 Presentacion\Administrador\AdministrarCatalogos.class

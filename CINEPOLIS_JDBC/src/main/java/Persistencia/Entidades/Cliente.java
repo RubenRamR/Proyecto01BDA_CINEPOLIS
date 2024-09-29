@@ -4,6 +4,7 @@
  */
 package Persistencia.Entidades;
 
+import com.itextpdf.awt.geom.Point2D;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -21,7 +22,7 @@ public class Cliente {
     private String apellidoMaterno;
     private String correo;
     private String contrasena;
-    private String ubicacion;
+    private Point2D.Double ubicacion;
     private Date fechaNacimiento;
     private Ciudad ciudad;
 
@@ -30,8 +31,7 @@ public class Cliente {
 
     }
 
-    //Constructor que inicializa las variables
-    public Cliente(long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, Ciudad ciudad) {
+    public Cliente(long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, Point2D.Double ubicacion, Date fechaNacimiento, Ciudad ciudad) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -43,7 +43,7 @@ public class Cliente {
         this.ciudad = ciudad;
     }
 
-    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, Ciudad ciudad) {
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, Point2D.Double ubicacion, Date fechaNacimiento, Ciudad ciudad) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -103,11 +103,11 @@ public class Cliente {
         this.contrasena = contrasena;
     }
 
-    public String getUbicacion() {
+    public Point2D.Double getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(String ubicacion) {
+    public void setUbicacion(Point2D.Double ubicacion) {
         this.ubicacion = ubicacion;
     }
 
@@ -129,23 +129,38 @@ public class Cliente {
 
     public static Cliente convertirAEntidad(ResultSet resultado) throws SQLException {
         Cliente cliente = new Cliente();
-        cliente.setId(resultado.getLong("idCliente"));
+
+        cliente.setId(resultado.getLong("idCliente")); 
         cliente.setNombre(resultado.getString("nombre"));
         cliente.setApellidoPaterno(resultado.getString("apellidoPaterno"));
         cliente.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-        cliente.setCorreo(resultado.getString("correo"));
+        cliente.setCorreo(resultado.getString("correo")); 
 
-        String contrasena = resultado.getString("contrasena");
-        System.out.println("Contraseña recuperada: " + contrasena);
+        String contrasena = resultado.getString("contrasena"); 
         cliente.setContrasena(contrasena);
 
-        cliente.setUbicacion(resultado.getString("ubicacion"));
+        String ubicacionStr = resultado.getString("ubicacion"); 
+        if (ubicacionStr != null && !ubicacionStr.trim().isEmpty())
+        {
+            String[] coordenadasArray = ubicacionStr.split(",");
+            if (coordenadasArray.length == 2)
+            {
+                double latitud = Double.parseDouble(coordenadasArray[0]);
+                double longitud = Double.parseDouble(coordenadasArray[1]);
+                cliente.setUbicacion(new Point2D.Double(latitud, longitud));
+            } else
+            {
+                cliente.setUbicacion(null);
+            }
+        } else
+        {
+            cliente.setUbicacion(null);
+        }
+
         cliente.setFechaNacimiento(resultado.getDate("fechaNacimiento"));
 
         Ciudad ciudad = new Ciudad();
-        ciudad.setId(resultado.getLong("ciudadId"));
-        ciudad.setNombre(resultado.getString("ciudadNombre"));
-        ciudad.setLocalizacion(resultado.getString("localizacion"));
+        ciudad.setId(resultado.getLong("ciudad"));
         cliente.setCiudad(ciudad);
 
         return cliente;

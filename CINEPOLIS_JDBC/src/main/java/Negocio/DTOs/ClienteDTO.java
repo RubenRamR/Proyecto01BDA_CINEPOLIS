@@ -4,6 +4,7 @@
  */
 package Negocio.DTOs;
 
+import com.itextpdf.awt.geom.Point2D;
 import java.util.Date;
 
 /**
@@ -18,7 +19,7 @@ public class ClienteDTO {
     private String apellidoMaterno;
     private String correo;
     private String contrasena;
-    private String ubicacion;
+    private Point2D.Double ubicacion;
     private Date fechaNacimiento;
     private CiudadDTO ciudad;
 
@@ -26,7 +27,7 @@ public class ClienteDTO {
     public ClienteDTO() {
     }
 
-    public ClienteDTO(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, CiudadDTO ciudad) {
+    public ClienteDTO(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, Point2D.Double ubicacion, Date fechaNacimiento, CiudadDTO ciudad) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -38,7 +39,7 @@ public class ClienteDTO {
         this.ciudad = ciudad;
     }
 
-    public ClienteDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, String ubicacion, Date fechaNacimiento, CiudadDTO ciudad) {
+    public ClienteDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasena, Point2D.Double ubicacion, Date fechaNacimiento, CiudadDTO ciudad) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -97,11 +98,11 @@ public class ClienteDTO {
         this.contrasena = contrasena;
     }
 
-    public String getUbicacion() {
+    public Point2D.Double getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(String ubicacion) {
+    public void setUbicacion(Point2D.Double ubicacion) {
         this.ubicacion = ubicacion;
     }
 

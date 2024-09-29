@@ -8,6 +8,7 @@ import Negocio.DTOs.ClienteDTO;
 import Negocio.Negocio.ClienteNegocio;
 import Persistencia.DAOs.ClienteDAO;
 import Persistencia.DAOs.ConexionBD;
+import com.itextpdf.awt.geom.Point2D;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -168,45 +169,61 @@ public class AgregarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+ String nombreCompleto = txtNombre.getText();
+    String correo = txtCorreo.getText();
+    String contrasena = new String(txtContrasena.getPassword());
+    Date fechaNacimiento = jDateChooser1.getDate();
 
-        String nombreCompleto = txtNombre.getText();
-        String correo = txtCorreo.getText();
-        String contrasena = new String(txtContrasena.getPassword());
-        Date fechaNacimiento = jDateChooser1.getDate();
+    if (nombreCompleto.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || fechaNacimiento == null) {
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        if (nombreCompleto.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || fechaNacimiento == null)
-        {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+    String[] partesNombre = nombreCompleto.split(" ");
+    String nombre = partesNombre.length > 0 ? partesNombre[0] : "";
+    String apellidoPaterno = partesNombre.length > 1 ? partesNombre[1] : "";
+    String apellidoMaterno = partesNombre.length > 2 ? partesNombre[2] : "";
+
+    ClienteDTO nuevoCliente = new ClienteDTO();
+    nuevoCliente.setNombre(nombre);
+    nuevoCliente.setApellidoPaterno(apellidoPaterno);
+    nuevoCliente.setApellidoMaterno(apellidoMaterno);
+    nuevoCliente.setCorreo(correo);
+    nuevoCliente.setContrasena(contrasena);
+    nuevoCliente.setFechaNacimiento(fechaNacimiento);
+
+    // Obtener y establecer la ubicación
+    String ubicacionStr = txtUbicacion.getText().trim();
+    String[] coordenadasArray = ubicacionStr.split(",");
+    
+    if (coordenadasArray.length == 2) {
+        try {
+            double latitud = Double.parseDouble(coordenadasArray[0].trim());
+            double longitud = Double.parseDouble(coordenadasArray[1].trim());
+            Point2D.Double ubicacion = new Point2D.Double(latitud, longitud);
+            nuevoCliente.setUbicacion(ubicacion);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Coordenadas inválidas. Asegúrese de que el formato sea: latitud,longitud", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+    } else {
+        JOptionPane.showMessageDialog(this, "Formato de coordenadas incorrecto. Debe ser: latitud,longitud", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        String[] partesNombre = nombreCompleto.split(" ");
-        String nombre = partesNombre.length > 0 ? partesNombre[0] : "";
-        String apellidoPaterno = partesNombre.length > 1 ? partesNombre[1] : "";
-        String apellidoMaterno = partesNombre.length > 2 ? partesNombre[2] : "";
+    try {
+        clienteNegocio.agregarCliente(nuevoCliente);
+        JOptionPane.showMessageDialog(this, "Cliente agregado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-        ClienteDTO nuevoCliente = new ClienteDTO();
-        nuevoCliente.setNombre(nombre);
-        nuevoCliente.setApellidoPaterno(apellidoPaterno);
-        nuevoCliente.setApellidoMaterno(apellidoMaterno);
-        nuevoCliente.setCorreo(correo);
-        nuevoCliente.setContrasena(contrasena);
-        nuevoCliente.setFechaNacimiento(fechaNacimiento);
-        nuevoCliente.setUbicacion(txtUbicacion.getText());
-
-        try
-        {
-            clienteNegocio.agregarCliente(nuevoCliente);
-            JOptionPane.showMessageDialog(this, "Cliente agregado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-            txtNombre.setText("");
-            txtCorreo.setText("");
-            txtContrasena.setText("");
-            jDateChooser1.setDate(null);
-        } catch (Exception e)
-        {
-            JOptionPane.showMessageDialog(this, "Error al agregar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        // Limpiar campos
+        txtNombre.setText("");
+        txtCorreo.setText("");
+        txtContrasena.setText("");
+        jDateChooser1.setDate(null);
+        txtUbicacion.setText(""); // Limpiar campo de ubicación
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al agregar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     /**

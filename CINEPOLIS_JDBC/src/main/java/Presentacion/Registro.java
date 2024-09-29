@@ -6,6 +6,7 @@ package Presentacion;
 
 import Negocio.DTOs.ClienteDTO;
 import Negocio.Negocio.ClienteNegocio;
+import com.itextpdf.awt.geom.Point2D;
 import excepciones.cinepolisException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -138,45 +139,59 @@ public class Registro extends javax.swing.JFrame {
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
         // TODO add your handling code here:
         try {
-            ClienteDTO clienteDTO = new ClienteDTO();
+        ClienteDTO clienteDTO = new ClienteDTO();
 
-            String[] nombreC = txtNombre.getText().split(" ");
-            int cantidad = nombreC.length;
+        String[] nombreC = txtNombre.getText().trim().split(" ");
+        int cantidad = nombreC.length;
 
-            if (cantidad < 3) {
-                new cinepolisException("Nombre inválido");
-            }
-
-            if (cantidad > 3) {
-                clienteDTO.setApellidoMaterno(nombreC[nombreC.length - 1]);
-                clienteDTO.setApellidoPaterno(nombreC[nombreC.length - 2]);
-                String nombreAuxiliar = "";
-                for (int i = 0; i < nombreC.length - 2; i++) {
-                    nombreAuxiliar += nombreC[i] + " ";
-                }
-                clienteDTO.setNombre(nombreAuxiliar);
-            }else{
-                clienteDTO.setNombre(nombreC[0]);
-                clienteDTO.setApellidoPaterno(nombreC[1]);
-                clienteDTO.setApellidoMaterno(nombreC[2]);
-            }
-
-            clienteDTO.setCorreo(txtCorreo.getText());
-            clienteDTO.setContrasena(txtContrasena.getText());
-            clienteDTO.setFechaNacimiento(jDateChooser1.getDate());
-            clienteDTO.setUbicacion(textoCoordenadas.getText());
-
-            //
-            if (negocio.registro(clienteDTO) != null) {
-                InicioSesion inicioSesion = new InicioSesion(negocio);
-                inicioSesion.setVisible(true);
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+        if (cantidad < 3) {
+            throw new cinepolisException("Nombre inválido, debe contener al menos un nombre y dos apellidos.");
         }
+
+        if (cantidad > 3) {
+            clienteDTO.setApellidoMaterno(nombreC[nombreC.length - 1]);
+            clienteDTO.setApellidoPaterno(nombreC[nombreC.length - 2]);
+            StringBuilder nombreAuxiliar = new StringBuilder();
+            for (int i = 0; i < nombreC.length - 2; i++) {
+                nombreAuxiliar.append(nombreC[i]).append(" ");
+            }
+            clienteDTO.setNombre(nombreAuxiliar.toString().trim());
+        } else {
+            clienteDTO.setNombre(nombreC[0]);
+            clienteDTO.setApellidoPaterno(nombreC[1]);
+            clienteDTO.setApellidoMaterno(nombreC[2]);
+        }
+
+        clienteDTO.setCorreo(txtCorreo.getText().trim());
+        clienteDTO.setContrasena(txtContrasena.getText().trim());
+        clienteDTO.setFechaNacimiento(jDateChooser1.getDate());
+
+        // Obtener y establecer las coordenadas
+        String ubicacionStr = textoCoordenadas.getText().trim();
+        String[] coordenadasArray = ubicacionStr.split(",");
+        if (coordenadasArray.length == 2) {
+            double latitud = Double.parseDouble(coordenadasArray[0].trim());
+            double longitud = Double.parseDouble(coordenadasArray[1].trim());
+            Point2D.Double ubicacion = new Point2D.Double(latitud, longitud);
+            clienteDTO.setUbicacion(ubicacion);
+        } else {
+            throw new cinepolisException("Coordenadas inválidas. Deben estar en el formato: latitud,longitud");
+        }
+
+        if (negocio.registro(clienteDTO) != null) {
+            InicioSesion inicioSesion = new InicioSesion(negocio);
+            inicioSesion.setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario");
+        }
+    } catch (cinepolisException ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null, "Error en el formato de las coordenadas: " + ex.getMessage());
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
+    }
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void textoCoordenadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCoordenadasActionPerformed

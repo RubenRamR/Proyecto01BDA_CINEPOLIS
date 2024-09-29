@@ -89,10 +89,10 @@ public class ClienteNegocio implements IClienteNegocio {
 
     @Override
     public ClienteDTO registro(ClienteDTO cliente) {
-        Cliente clienteAuxiliar = null;
+//        Cliente clienteAuxiliar = null;
         try
         {
-            clienteAuxiliar = convertirAEntidad(cliente);
+           Cliente clienteAuxiliar = convertirAEntidad(cliente);
 
             return convertirAEntidad(clienteDAO.insertarCliente(clienteAuxiliar));
 
@@ -136,7 +136,7 @@ public class ClienteNegocio implements IClienteNegocio {
         String materno = cliente.getApellidoMaterno();
         String correo = cliente.getCorreo();
         String contrasena = cliente.getContrasena();
-        String ubicacion = cliente.getUbicacion();
+        Point2D.Double ubicacion = cliente.getUbicacion();
         Date fechaN = cliente.getFechaNacimiento();
 
         Ciudad ciudad = convertirCiudadAEntidad(cliente.getCiudad());
@@ -145,6 +145,11 @@ public class ClienteNegocio implements IClienteNegocio {
     }
 
     public Ciudad convertirCiudadAEntidad(CiudadDTO ciudadDTO) {
+        if (ciudadDTO == null)
+        {
+            return null;
+        }
+
         Long id = ciudadDTO.getId();
         String nombre = ciudadDTO.getNombre();
         String localizacion = ciudadDTO.getLocalizacion();
@@ -158,7 +163,7 @@ public class ClienteNegocio implements IClienteNegocio {
         String materno = cliente.getApellidoMaterno();
         String correo = cliente.getCorreo();
         String contrasena = cliente.getContrasena();
-        String ubicacion = cliente.getUbicacion();
+        Point2D.Double ubicacion = cliente.getUbicacion();
         Date fechaN = cliente.getFechaNacimiento();
 
         Ciudad ciudad = convertirCiudadAEntidad(cliente.getCiudad());
@@ -209,7 +214,7 @@ public class ClienteNegocio implements IClienteNegocio {
         String materno = cliente.getApellidoMaterno();
         String correo = cliente.getCorreo();
         String contrasena = cliente.getContrasena();
-        String ubicacion = cliente.getUbicacion();
+        Point2D.Double ubicacion = cliente.getUbicacion();
         Date fechaN = cliente.getFechaNacimiento();
 
         Ciudad ciudad = cliente.getCiudad();
@@ -656,8 +661,9 @@ public class ClienteNegocio implements IClienteNegocio {
     public List<ClienteDTO> buscarClientes(String nombreFiltro, java.sql.Date fechaInicio, java.sql.Date fechaFin, String ciudadFiltro) throws cinepolisException {
         try
         {
-            List<Cliente> clientes = clienteDAO.buscarClientesConFiltros(nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
-            return convertirClienteTablaDTO(clientes);
+            List<ClienteDTO> clientes = clienteDAO.buscarClientesConFiltros(nombreFiltro, fechaInicio, fechaFin, ciudadFiltro);
+            return clientes;
+//            return convertirClienteTablaDTO(clientes);
         } catch (cinepolisException ex)
         {
             System.out.println(ex.getMessage());

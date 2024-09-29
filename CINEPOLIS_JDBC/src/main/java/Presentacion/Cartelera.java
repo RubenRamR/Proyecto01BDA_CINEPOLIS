@@ -292,6 +292,7 @@ public class Cartelera extends javax.swing.JFrame {
         });
         jPanel3.add(botonPelicula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 150, 190));
 
+        botonPelicula8.setIcon(new javax.swing.ImageIcon("C:\\Users\\rramirez\\OneDrive\\Escritorio\\BDA_3\\Proyecto01BDA_CINEPOLIS\\Resources\\deadpool.jpeg")); // NOI18N
         botonPelicula8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonPelicula8ActionPerformed(evt);
@@ -333,11 +334,11 @@ public class Cartelera extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1010, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
         );
 
         pack();
@@ -443,34 +444,39 @@ public class Cartelera extends javax.swing.JFrame {
 //    }
     
     private void confirmarCompra(String tituloPelicula, List<PeliculaDTO> datosPeliculas) {
-        // Mostrar los datos de la película seleccionada
-        PeliculaDTO peliculaSeleccionada = null;
-        for (PeliculaDTO pelicula : datosPeliculas) {
-            if (pelicula.getTitulo().equals(tituloPelicula)) {
-                peliculaSeleccionada = pelicula;
-                break;
-            }
+    if (datosPeliculas == null) {
+        System.out.println("La lista de películas está vacía.");
+        return;
+    }
+    
+    // Mostrar los datos de la película seleccionada
+    PeliculaDTO peliculaSeleccionada = null;
+    for (PeliculaDTO pelicula : datosPeliculas) {
+        if (pelicula.getTitulo().equals(tituloPelicula)) {
+            peliculaSeleccionada = pelicula;
+            break;
         }
+    }
 
-        if (peliculaSeleccionada != null) {
-            System.out.println("Título: " + peliculaSeleccionada.getTitulo());
-            System.out.println("Sinopsis: " + peliculaSeleccionada.getSinopsis());
-            System.out.println("Duración: " + peliculaSeleccionada.getDuracion());
+    if (peliculaSeleccionada != null) {
+        System.out.println("Título: " + peliculaSeleccionada.getTitulo());
+        System.out.println("Sinopsis: " + peliculaSeleccionada.getSinopsis());
+        System.out.println("Duración: " + peliculaSeleccionada.getDuracion());
 
-           
-            int opcion = JOptionPane.showConfirmDialog(this, "¿Desea confirmar la compra de entradas para esta película?", "Confirmar Compra", JOptionPane.YES_NO_OPTION);
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Desea confirmar la compra de entradas para esta película?", "Confirmar Compra", JOptionPane.YES_NO_OPTION);
 
-            if (opcion == JOptionPane.YES_OPTION) {
-               CompraBoleto b=new CompraBoleto(sucursal, peliculaSeleccionada, negocio);
-               b.setVisible(true);
-               this.dispose();
-            } else {
-                System.out.println("Compra cancelada.");
-            }
+        if (opcion == JOptionPane.YES_OPTION) {
+            CompraBoleto b = new CompraBoleto(sucursal, peliculaSeleccionada, negocio);
+            b.setVisible(true);
+            this.dispose();
         } else {
-            System.out.println("La película seleccionada no se encuentra en la lista de datos.");
+            System.out.println("Compra cancelada.");
         }
-        }
+    } else {
+        System.out.println("La película seleccionada no se encuentra en la lista de datos.");
+    }
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBoxGenero;

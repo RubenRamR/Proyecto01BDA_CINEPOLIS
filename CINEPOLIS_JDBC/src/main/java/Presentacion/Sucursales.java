@@ -11,6 +11,7 @@ import Persistencia.DAOs.ConexionBD;
 import com.itextpdf.awt.geom.Point2D;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ import javax.swing.JPanel;
 public class Sucursales extends javax.swing.JFrame {
 
     ClienteNegocio cine;
-    
+
     /**
      * Creates new form Sucursales
      */
@@ -33,22 +34,28 @@ public class Sucursales extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setSize(725, 560);
-        this.cine= cine;
-        
+        this.cine = cine;
+
         llenarComboBoxNombreSucursal();
     }
 
     private void llenarComboBoxNombreSucursal() throws SQLException {
-
         List<SucursalDTO> sucursales = cine.obtenerSucursales();
-        // vaciar box antes de agregar nuevos elementos
-        comboBoxNombreSucursal.removeAllItems();
+
+        // Comprobar si la lista es null
+        if (sucursales == null)
+        {
+            sucursales = new ArrayList<>();
+        }
+
+//    comboBoxNombreSucursal.removeAllItems();
         // Agregar cada nombre de sucursal al ComboBox
-        for (SucursalDTO sucursal : sucursales) {
-            comboBoxNombreSucursal.addItem(sucursal.getNombre()); 
+        for (SucursalDTO sucursal : sucursales)
+        {
+            comboBoxNombreSucursal.addItem(sucursal.getNombre());
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,7 +164,7 @@ public class Sucursales extends javax.swing.JFrame {
 
     private void btnConfirmarSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarSucursalActionPerformed
         String nombreSucursalSeleccionada = (String) comboBoxNombreSucursal.getSelectedItem();
-        Cartelera c = new Cartelera(nombreSucursalSeleccionada,cine);
+        Cartelera c = new Cartelera(nombreSucursalSeleccionada, cine);
         c.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnConfirmarSucursalActionPerformed
@@ -165,30 +172,35 @@ public class Sucursales extends javax.swing.JFrame {
     private void botonCalcularSucursalMasCercanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCalcularSucursalMasCercanaActionPerformed
         Point2D.Double ubicacionUsuario = (Point2D.Double) cine.obtenerCoordenadasCliente(cine.getId());
 
-        try {
+        try
+        {
             SucursalDTO sucursalMasCercana = cine.obtenerSucursalMasCercana(ubicacionUsuario);
 
             // Mostrar la sucursal más cercana en un JPanel
-            if (sucursalMasCercana != null) {
+            if (sucursalMasCercana != null)
+            {
                 JPanel panelInformacion = crearPanelInformacion(sucursalMasCercana);
                 int respuesta = JOptionPane.showConfirmDialog(null, panelInformacion, "Confirmación", JOptionPane.YES_NO_OPTION);
-                if (respuesta == JOptionPane.YES_OPTION) {
+                if (respuesta == JOptionPane.YES_OPTION)
+                {
                     // Redirigir al formulario de cartelera
-                    Cartelera formCartelera = new Cartelera(sucursalMasCercana.getNombre(),cine);
+                    Cartelera formCartelera = new Cartelera(sucursalMasCercana.getNombre(), cine);
                     formCartelera.setVisible(true);
                     this.disable();
                 }
-            } else {
+            } else
+            {
                 JOptionPane.showMessageDialog(this, "No se encontraron sucursales.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
         }
     }//GEN-LAST:event_botonCalcularSucursalMasCercanaActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        Cartelera cartelera = new Cartelera(comboBoxNombreSucursal.getItemAt(0),cine);
+        Cartelera cartelera = new Cartelera(comboBoxNombreSucursal.getItemAt(0), cine);
         cartelera.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -202,7 +214,7 @@ public class Sucursales extends javax.swing.JFrame {
 
         return panel;
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -212,36 +224,45 @@ public class Sucursales extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(Sucursales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(Sucursales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(Sucursales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(Sucursales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         ConexionBD conexion = new ConexionBD();
-        ClienteDAO clienteDAO= new ClienteDAO (conexion);
+        ClienteDAO clienteDAO = new ClienteDAO(conexion);
         ClienteNegocio clienteNegocio = new ClienteNegocio(clienteDAO);
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() { 
-                try {
+            public void run() {
+                try
+                {
                     new Sucursales(clienteNegocio).setVisible(true);
-                } catch (SQLException ex) {
+                } catch (SQLException ex)
+                {
                     Logger.getLogger(Sucursales.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         });
     }

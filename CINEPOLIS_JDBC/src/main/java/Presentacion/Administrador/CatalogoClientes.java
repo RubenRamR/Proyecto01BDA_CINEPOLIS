@@ -28,7 +28,7 @@ import utilerias.JButtonRenderer;
 public class CatalogoClientes extends javax.swing.JFrame {
 
     private int pagina = 1;
-    private int LIMITE = 2;
+    private int LIMITE = 5;
     ClienteNegocio clienteNegocio;
     boolean conFiltro;
 

@@ -393,53 +393,53 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     public List<Cliente> buscarClientesTabla() throws cinepolisException {
-        List<Cliente> clientesLista = new ArrayList<>();
+    List<Cliente> clientesLista = new ArrayList<>();
 
-        String codigoSQL = "SELECT c.idCliente, c.nombre, c.apellidoPaterno, c.apellidoMaterno, c.correo, "
-                + "c.contrasena, c.ubicacionX, c.ubicacionY, c.fechaNacimiento, "
-                + "ci.id AS ciudadId, ci.nombre AS ciudadNombre, ci.localizacion "
-                + "FROM clientes c "
-                + "JOIN ciudad ci ON c.ciudad = ci.id";
+    String codigoSQL = "SELECT c.idCliente, c.nombre, c.apellidoPaterno, c.apellidoMaterno, c.correo, "
+            + "c.contrasena, ST_X(c.ubicacion) AS ubicacionX, ST_Y(c.ubicacion) AS ubicacionY, "
+            + "c.fechaNacimiento, ci.id AS ciudadId, ci.nombre AS ciudadNombre, ci.localizacion "
+            + "FROM clientes c "
+            + "JOIN ciudad ci ON c.ciudad = ci.id";
 
-        try (Connection conexion = this.conexionBD.crearConexion(); Statement comandoSQL = conexion.createStatement(); ResultSet resultado = comandoSQL.executeQuery(codigoSQL))
-        {
+    try (Connection conexion = this.conexionBD.crearConexion(); 
+         Statement comandoSQL = conexion.createStatement(); 
+         ResultSet resultado = comandoSQL.executeQuery(codigoSQL)) {
 
-            while (resultado.next())
-            {
-                Cliente cliente = new Cliente();
-                cliente.setId(resultado.getLong("idCliente"));
-                cliente.setNombre(resultado.getString("nombre"));
-                cliente.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-                cliente.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-                cliente.setCorreo(resultado.getString("correo"));
-                cliente.setContrasena(resultado.getString("contrasena"));
+        while (resultado.next()) {
+            Cliente cliente = new Cliente();
+            cliente.setId(resultado.getLong("idCliente"));
+            cliente.setNombre(resultado.getString("nombre"));
+            cliente.setApellidoPaterno(resultado.getString("apellidoPaterno"));
+            cliente.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+            cliente.setCorreo(resultado.getString("correo"));
+            cliente.setContrasena(resultado.getString("contrasena"));
 
-                // Crear el objeto de ubicación usando ubicacionX y ubicacionY
-                Point2D.Double ubicacion = new Point2D.Double(
-                        resultado.getDouble("ubicacionX"),
-                        resultado.getDouble("ubicacionY")
-                );
-                cliente.setUbicacion(ubicacion);
+            // Crear el objeto de ubicación usando ubicacionX y ubicacionY
+            Point2D.Double ubicacion = new Point2D.Double(
+                    resultado.getDouble("ubicacionX"),
+                    resultado.getDouble("ubicacionY")
+            );
+            cliente.setUbicacion(ubicacion);
 
-                cliente.setFechaNacimiento(resultado.getDate("fechaNacimiento"));
+            cliente.setFechaNacimiento(resultado.getDate("fechaNacimiento"));
 
-                Ciudad ciudad = new Ciudad();
-                ciudad.setId(resultado.getLong("ciudadId")); // Obtener el ID de la ciudad
-                ciudad.setNombre(resultado.getString("ciudadNombre")); // Obtener el nombre de la ciudad
-                ciudad.setLocalizacion(resultado.getString("localizacion")); // Obtener la localización de la ciudad
-                cliente.setCiudad(ciudad);
+            Ciudad ciudad = new Ciudad();
+            ciudad.setId(resultado.getLong("ciudadId")); // Obtener el ID de la ciudad
+            ciudad.setNombre(resultado.getString("ciudadNombre")); // Obtener el nombre de la ciudad
+            ciudad.setLocalizacion(resultado.getString("localizacion")); // Obtener la localización de la ciudad
+            cliente.setCiudad(ciudad);
 
-                clientesLista.add(cliente);
-            }
-
-        } catch (SQLException ex)
-        {
-            System.out.println("Error en la consulta de clientes: " + ex.getMessage());
-            throw new cinepolisException("Ocurrió un error al leer la base de datos. Inténtelo de nuevo y si el error persiste, contacte al soporte.", ex);
+            clientesLista.add(cliente);
         }
 
-        return clientesLista;
+    } catch (SQLException ex) {
+        System.out.println("Error en la consulta de clientes: " + ex.getMessage());
+        throw new cinepolisException("Ocurrió un error al leer la base de datos. Inténtelo de nuevo y si el error persiste, contacte al soporte.", ex);
     }
+
+    return clientesLista;
+}
+
 
     @Override
     public List<ClienteDTO> obtenerTodosLosClientes() throws cinepolisException {
@@ -568,127 +568,111 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     public List<ClienteDTO> buscarClientesConFiltros(String nombreFiltro, Date fechaInicio, Date fechaFin, String ciudadFiltro) throws cinepolisException {
-        Connection conexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        List<ClienteDTO> clientes = new ArrayList<>();
+    Connection conexion = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    List<ClienteDTO> clientes = new ArrayList<>();
 
-        try
-        {
-            conexion = this.conexionBD.crearConexion();
+    try {
+        conexion = this.conexionBD.crearConexion();
 
-            // Construcción de la consulta SQL
-            StringBuilder sqlBuilder = new StringBuilder("SELECT c.idCliente, c.nombre, c.apellidoPaterno, c.apellidoMaterno, "
-                    + "c.correo, c.contrasena, c.ubicacionX, c.ubicacionY, c.fechaNacimiento, ci.nombre AS ciudadNombre "
-                    + "FROM clientes c INNER JOIN ciudad ci ON c.ciudad = ci.id WHERE 1=1");
+        // Construcción de la consulta SQL
+        StringBuilder sqlBuilder = new StringBuilder("SELECT c.idCliente, c.nombre, c.apellidoPaterno, c.apellidoMaterno, "
+                + "c.correo, c.contrasena, ST_X(c.ubicacion) AS ubicacionX, ST_Y(c.ubicacion) AS ubicacionY, "
+                + "c.fechaNacimiento, ci.nombre AS ciudadNombre "
+                + "FROM clientes c INNER JOIN ciudad ci ON c.ciudad = ci.id WHERE 1=1");
 
-            List<Object> parametros = new ArrayList<>();
+        List<Object> parametros = new ArrayList<>();
 
-            // Filtro por nombre
-            if (nombreFiltro != null && !nombreFiltro.trim().isEmpty())
-            {
-                sqlBuilder.append(" AND c.nombre LIKE ?");
-                parametros.add("%" + nombreFiltro + "%");
-            }
-
-            // Filtro por fecha de inicio
-            if (fechaInicio != null)
-            {
-                sqlBuilder.append(" AND c.fechaNacimiento >= ?");
-                parametros.add(new java.sql.Date(fechaInicio.getTime()));
-            }
-
-            // Filtro por fecha de fin
-            if (fechaFin != null)
-            {
-                sqlBuilder.append(" AND c.fechaNacimiento <= ?");
-                parametros.add(new java.sql.Date(fechaFin.getTime()));
-            }
-
-            // Filtro por ciudad
-            if (ciudadFiltro != null && !ciudadFiltro.trim().isEmpty())
-            {
-                sqlBuilder.append(" AND ci.nombre LIKE ?");
-                parametros.add("%" + ciudadFiltro + "%");
-            }
-
-            preparedStatement = conexion.prepareStatement(sqlBuilder.toString());
-
-            for (int i = 0; i < parametros.size(); i++)
-            {
-                preparedStatement.setObject(i + 1, parametros.get(i));
-            }
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                ClienteDTO cliente = new ClienteDTO();
-                cliente.setId(resultSet.getLong("idCliente"));
-                cliente.setNombre(resultSet.getString("nombre"));
-                cliente.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
-                cliente.setApellidoMaterno(resultSet.getString("apellidoMaterno"));
-                cliente.setCorreo(resultSet.getString("correo"));
-                cliente.setContrasena(resultSet.getString("contrasena"));
-
-                // Crear el objeto de ubicación usando ubicacionX y ubicacionY
-                Point2D.Double ubicacion = new Point2D.Double(
-                        resultSet.getDouble("ubicacionX"),
-                        resultSet.getDouble("ubicacionY")
-                );
-                cliente.setUbicacion(ubicacion);
-
-                cliente.setFechaNacimiento(resultSet.getDate("fechaNacimiento"));
-
-                // Setear la ciudad
-                CiudadDTO ciudad = new CiudadDTO();
-                ciudad.setNombre(resultSet.getString("ciudadNombre"));
-                cliente.setCiudad(ciudad);
-
-                clientes.add(cliente);
-            }
-
-        } catch (SQLException ex)
-        {
-            System.out.println("Error al buscar clientes: " + ex.getMessage());
-            throw new cinepolisException("Error al buscar clientes: " + ex.getMessage(), ex);
-        } finally
-        {
-            // Cierre de recursos
-            if (resultSet != null)
-            {
-                try
-                {
-                    resultSet.close();
-                } catch (SQLException e)
-                {
-                    System.out.println("Error al cerrar el ResultSet: " + e.getMessage());
-                }
-            }
-            if (preparedStatement != null)
-            {
-                try
-                {
-                    preparedStatement.close();
-                } catch (SQLException e)
-                {
-                    System.out.println("Error al cerrar el PreparedStatement: " + e.getMessage());
-                }
-            }
-            if (conexion != null)
-            {
-                try
-                {
-                    conexion.close();
-                } catch (SQLException e)
-                {
-                    System.out.println("Error al cerrar la conexión: " + e.getMessage());
-                }
-            }
+        // Filtro por nombre
+        if (nombreFiltro != null && !nombreFiltro.trim().isEmpty()) {
+            sqlBuilder.append(" AND c.nombre LIKE ?");
+            parametros.add("%" + nombreFiltro + "%");
         }
 
-        return clientes;
+        // Filtro por fecha de inicio
+        if (fechaInicio != null) {
+            sqlBuilder.append(" AND c.fechaNacimiento >= ?");
+            parametros.add(new java.sql.Date(fechaInicio.getTime()));
+        }
+
+        // Filtro por fecha de fin
+        if (fechaFin != null) {
+            sqlBuilder.append(" AND c.fechaNacimiento <= ?");
+            parametros.add(new java.sql.Date(fechaFin.getTime()));
+        }
+
+        // Filtro por ciudad
+        if (ciudadFiltro != null && !ciudadFiltro.trim().isEmpty()) {
+            sqlBuilder.append(" AND ci.nombre LIKE ?");
+            parametros.add("%" + ciudadFiltro + "%");
+        }
+
+        preparedStatement = conexion.prepareStatement(sqlBuilder.toString());
+
+        for (int i = 0; i < parametros.size(); i++) {
+            preparedStatement.setObject(i + 1, parametros.get(i));
+        }
+
+        resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            ClienteDTO cliente = new ClienteDTO();
+            cliente.setId(resultSet.getLong("idCliente"));
+            cliente.setNombre(resultSet.getString("nombre"));
+            cliente.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
+            cliente.setApellidoMaterno(resultSet.getString("apellidoMaterno"));
+            cliente.setCorreo(resultSet.getString("correo"));
+            cliente.setContrasena(resultSet.getString("contrasena"));
+
+            // Crear el objeto de ubicación usando ubicacionX y ubicacionY
+            Point2D.Double ubicacion = new Point2D.Double(
+                    resultSet.getDouble("ubicacionX"),
+                    resultSet.getDouble("ubicacionY")
+            );
+            cliente.setUbicacion(ubicacion);
+
+            cliente.setFechaNacimiento(resultSet.getDate("fechaNacimiento"));
+
+            // Setear la ciudad
+            CiudadDTO ciudad = new CiudadDTO();
+            ciudad.setNombre(resultSet.getString("ciudadNombre"));
+            cliente.setCiudad(ciudad);
+
+            clientes.add(cliente);
+        }
+
+    } catch (SQLException ex) {
+        System.out.println("Error al buscar clientes: " + ex.getMessage());
+        throw new cinepolisException("Error al buscar clientes: " + ex.getMessage(), ex);
+    } finally {
+        // Cierre de recursos
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar el ResultSet: " + e.getMessage());
+            }
+        }
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar el PreparedStatement: " + e.getMessage());
+            }
+        }
+        if (conexion != null) {
+            try {
+                conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
     }
+
+    return clientes;
+}
+
 
     public Point2D.Double conseguirCoordenas(int idCliente) {
         Point2D.Double coordenadasCliente = null;

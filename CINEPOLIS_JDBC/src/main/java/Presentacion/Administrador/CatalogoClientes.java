@@ -258,11 +258,11 @@ public class CatalogoClientes extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Correo", "Contraseña", "Eliminar", "Editar"
+                "ID", "Nombre", "Correo", "Contraseña", "Editar", "Eliminar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false
+                false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

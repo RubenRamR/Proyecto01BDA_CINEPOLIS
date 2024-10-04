@@ -8,6 +8,7 @@ import Negocio.DTOs.ClienteDTO;
 import Negocio.Negocio.ClienteNegocio;
 import Persistencia.DAOs.ClienteDAO;
 import Persistencia.DAOs.ConexionBD;
+import Presentacion.Administrador.AdministrarCatalogos;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -58,6 +59,7 @@ public class InicioSesion extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         btnRegistrate = new javax.swing.JButton();
+        BtnAdm = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,7 +76,7 @@ public class InicioSesion extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Contraseña:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, -1, 30));
-        jPanel1.add(contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 280, 30));
+        jPanel1.add(contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 280, 40));
 
         btnIniciarSesion.setBackground(new java.awt.Color(12, 33, 63));
         btnIniciarSesion.setFont(new java.awt.Font("Sitka Text", 0, 14)); // NOI18N
@@ -109,6 +111,15 @@ public class InicioSesion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnRegistrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 530, -1, 20));
+
+        BtnAdm.setBackground(new java.awt.Color(102, 153, 255));
+        BtnAdm.setText("ADMIN");
+        BtnAdm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAdmActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BtnAdm, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 470, 70, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,6 +164,13 @@ public class InicioSesion extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegistrateActionPerformed
 
+    private void BtnAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAdmActionPerformed
+        // TODO add your handling code here:
+        AdministrarCatalogos ac = new AdministrarCatalogos(negocio);
+        ac.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_BtnAdmActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -191,6 +209,7 @@ public class InicioSesion extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton BtnAdm;
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JButton btnRegistrate;
     private javax.swing.JPasswordField contrasena;
